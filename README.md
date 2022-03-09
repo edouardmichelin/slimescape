@@ -14,13 +14,14 @@ If an assignment is split into different parts, then each part should have its o
 We will name branches using the pattern `[type]/[assignment/scope]/[short description]`.
 
 - `type` can be one of the following: `release`, `feature` or `hotfix`
-- `assignment/scope` is `assignement-` followed by the number of the assignment (which will very likely be related to the week number)
+- `assignment/scope` is `assignement-` followed by the number of the assignment for a "main" branch or `assignment` followed by the number of the assignment if a "short description" follows (e.g.: `assignment-3` or `assignment3`)
 - `short description` is a short, url encoded, description (e.g.: `add-green-button`, `part-4` or `julien`)
 
 Following this pattern,
-- a branch on which Edouard will implement his version of assignment 4 will be named `feature/assignment-4/edouard`
-- a branch on which Lilou will do part 3 of assignment 8 will be named `feature/assignment-8/part-3`
-- a branch on which Julien will fix a bug on a release, described in issue 2, right before the grading of the 8 first assignments will be named `hotfix/assignment-8/issue-2`
+- a branch on which Edouard will implement his version of assignment 4 will be named `feature/assignment4/edouard`
+- a branch on which Lilou will do part 3 of assignment 8 will be named `feature/assignment8/part-3`
+- a branch on which Julien will fix a bug on a release, described in issue 2, right before the grading of the 8 first assignments will be named `hotfix/assignment8/issue-2`
+- the working (feature) branch for assignment 12 will be named `feature/assignment-12`
 #### Notes
 Up to week 5 - included - assignments will be individual, meaning that we are all going to do the same work. This will result in `short description` simply being the name of the branch owner.
 
