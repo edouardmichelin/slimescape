@@ -6,8 +6,6 @@ using System.Runtime.InteropServices;
 /// </summary>
 /// <remarks>
 /// It is dependent on an external library "cellulolib" to work correctly
-/// This library can be found here : https://c4science.ch/source/cellulo-unity/browse/master/cellulolib/
-/// Be careful : this library has been tested to work correctly on Windows and Linux, but has some bugs on MacOS
 /// </remarks>
 public class Scanner {
 

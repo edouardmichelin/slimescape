@@ -1,27 +1,32 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+
+/// <summary> 
+/// This class represent the basic steering agent, it takes care 
+/// </summary>
+
 public class SteeringAgent : MonoBehaviour
 {
-    public bool blendWeight = false;
+    public bool blendWeight = false; //!< If more than one behavior is included and the desired output is a weighted sum of the different behaviors.
 
-    public float maxSpeed = 3f;
-    public float maxAccel = 15f;
-    public float maxRotation = 360f;
-    public float maxAngularAccel = 7.5f;
+    public float maxSpeed  {get; private set;} = 3f; //!< maximum speed in unity units
+    public float maxAccel {get; private set;}  = 15f; //!< maximum acceleration in unity units
+    public float maxRotation {get; private set;}  = 360f; //!< maximum rotation in unity units
+    public float maxAngularAccel {get; private set;}  = 7.5f; //!< maximum angular accel in unity units
 
-    public float rotation;
-    public Vector3 velocity;
+    protected float rotation;
+    protected Vector3 velocity;
     protected Steering steering;
 
-    protected Dictionary<int, List<Steering>> groups;
     void Start()
     {
         velocity = Vector3.zero;
         steering = new Steering();
-        groups = new Dictionary<int, List<Steering>>();
     }
 
+    /// <summary> 
+    /// Basic pointlike model velocity update. 
+    /// </summary>
     public virtual void LateUpdate()
     {
         velocity += steering.linear * Time.deltaTime;
@@ -47,6 +52,7 @@ public class SteeringAgent : MonoBehaviour
    
 }
 
+//!< Steering serves as a custom data type for storing the movement and rotation of the agent:
 public class Steering
 {
     public float angular;

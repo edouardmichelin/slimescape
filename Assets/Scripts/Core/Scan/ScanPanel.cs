@@ -9,17 +9,17 @@ using TMPro;
 /// </summary>
 public class ScanPanel : MonoBehaviour
 {
-    // Cellulos scanner
+    //!<Cellulos scanner
     private Scanner _scanner;
 
-    // The list of the scanned cellulos, with its mac address and game object
+    //!<The list of the scanned cellulos, with its mac address and game object
     public static Dictionary<string, GameObject> _celluloScannedList = new Dictionary<string, GameObject>();
 
-    // Reference to the scanner list panel and his elements
+    //!<Reference to the scanner list panel and his elements
     public GameObject _scannerListPanel;
     public GameObject _scannerListElementPanel;
 
-    // Reference to the scan button
+    //!<Reference to the scan button
     public Button _scanButton;
 
     private float refreshTimer = Config.REFRESH_TIMER;
@@ -66,6 +66,9 @@ public class ScanPanel : MonoBehaviour
         _scanner.StartScanning();
     }
 
+    /// <summary>
+	/// Clears the list of robots found
+	/// </summary>
     public void ClearList()
     {
         _scanner.ClearRobotsFound();
@@ -102,7 +105,6 @@ public class ScanPanel : MonoBehaviour
         
         foreach (KeyValuePair<string, GameObject> entry in _celluloScannedList)
         {
-            //Debug.Log(entry.Value.GetComponent<ScannerListElement>()._isConnected+": "+entry.Key);
             if (!entry.Value.GetComponent<ScannerListElement>()._isConnected)
             {
                 Debug.Log(entry.Value.GetComponent<ScannerListElement>()._isConnected + ": " + entry.Key);
@@ -112,7 +114,6 @@ public class ScanPanel : MonoBehaviour
 
         foreach (KeyValuePair<int, GameObject> entry in CelluloManager._celluloList)
         {
-//            Debug.Log(entry.Value.GetComponent<CelluloAgent>().isConnected + ": " + entry.Key);
             if (!entry.Value.GetComponent<CelluloAgent>().isConnected)
             {
                 celluloAgentIds.Add(entry.Key);

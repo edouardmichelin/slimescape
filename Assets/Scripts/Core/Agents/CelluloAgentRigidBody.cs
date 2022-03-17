@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// This class adds rigid body to a cellulo and manages the consequences of this. 
+/// This class adds rigid body to a cellulo and manages the consequences of this: steering vector is now a force input on the rigid body, the velocities are then updated correspondingly. 
 /// </summary>
 public class CelluloAgentRigidBody : CelluloAgent
 {
