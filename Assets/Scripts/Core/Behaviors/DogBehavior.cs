@@ -19,7 +19,7 @@ public class DogBehavior : AgentBehaviour
     
     void OnCollisionEnter(Collision collisionInfo)
     {
-        if (collisionInfo.collider.transform.parent.gameObject.tag == "Ghost")
+        if (collisionInfo.collider.transform.parent.gameObject.tag == Config.TAG_GHOST)
         {
             GameManager.Instance.TryUpdateScoreOf(this.gameObject, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GHOST);
         }

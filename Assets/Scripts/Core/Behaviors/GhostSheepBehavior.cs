@@ -9,16 +9,15 @@ public class GhostSheepBehavior : AgentBehaviour
     private const float D_MIN_ROTATE = 10f;
     private const float D_MAX_ROTATE = 11.5f;
     private const float IGNORING_TRESHOLD = 0.5f;
-    private const string FLEEING_TAG = "Sheep";
-    private const string ATTACKING_TAG = "Ghost";
-    private const string BORDER_TAG = "Border";
+	private const string FLEEING_TAG = Config.TAG_SHEEP;
+	private const string ATTACKING_TAG = Config.TAG_GHOST;
     
     private GameObject[] m_dogs;
     private int m_rotationDirection = 1;
     private AudioSource m_audioSource;
     
     public void Start() {
-        m_dogs = GameObject.FindGameObjectsWithTag("Dog");
+        m_dogs = GameObject.FindGameObjectsWithTag(Config.TAG_DOG);
         m_audioSource = GetComponent<AudioSource>();
 
         float time = UnityEngine.Random.Range(5f, 20f);
@@ -43,7 +42,7 @@ public class GhostSheepBehavior : AgentBehaviour
     
     void OnCollisionEnter(Collision collisionInfo)
     {
-        if (collisionInfo.collider.gameObject.tag == BORDER_TAG)
+        if (collisionInfo.collider.gameObject.tag == Config.TAG_BORDER)
         {
             SwitchRotationDirection();
         }
@@ -51,7 +50,7 @@ public class GhostSheepBehavior : AgentBehaviour
 
     private void SwitchRole()
     {
-        if (this.tag == FLEEING_TAG)
+        if (IsFleeing())
         {
             this.gameObject.tag = ATTACKING_TAG;
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);

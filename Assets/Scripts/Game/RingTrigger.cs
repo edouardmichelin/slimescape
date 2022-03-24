@@ -9,7 +9,7 @@ public class RingTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_dogs = GameObject.FindGameObjectsWithTag("Dog");
+        m_dogs = GameObject.FindGameObjectsWithTag(Config.TAG_DOG);
     }
 
     // Update is called once per frame
@@ -20,7 +20,7 @@ public class RingTrigger : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.gameObject.tag == "Sheep")
+        if (other.transform.parent.gameObject.tag == Config.TAG_SHEEP)
         {
             GameObject nearest = GetNearestDogFrom(other.gameObject);
             GameManager.Instance.TryUpdateScoreOf(nearest, Config.POINTS_FOR_SHEEP_IN_RING);

@@ -31,7 +31,7 @@ public class CelluloManager : MonoBehaviour
     // Dictionnary of the Cellulo mac addresses to their number
     public static Dictionary<string, int> _celluloNumbers = new Dictionary<string, int>()
     {
-        {"00:06:66:74:3A:82", 1},
+        {"00:06:66:74:41:03", 1},
         {"00:06:66:74:3E:82", 2},
         {"00:06:66:74:3E:93", 3},
         {"00:06:66:74:40:D3", 4},
@@ -59,7 +59,46 @@ public class CelluloManager : MonoBehaviour
         {"00:06:66:D2:CF:85", 26},
         {"00:06:66:D2:CF:91", 27},
         {"00:06:66:D2:CF:8B", 28},
-        {"00:06:66:D2:CF:97", 29}
+        {"00:06:66:D2:CF:97", 29},
+        {"00:06:66:D2:CF:96", 30},
+        {"00:06:66:74:43:00", 31},
+        {"00:06:66:74:40:D2", 32}
+    };
+
+        public static Dictionary<int,string> _celluloMacAddresses = new Dictionary<int,string>()
+    {
+        {1,"00:06:66:74:41:03"},
+        {2,"00:06:66:74:3E:82"},
+        {3,"00:06:66:74:3E:93"},
+        {4,"00:06:66:74:40:D3"},
+        {5,"00:06:66:74:40:DB"},
+        {6,"00:06:66:74:40:DC"},
+        {7,"00:06:66:74:40:E3"},
+        {8,"00:06:66:74:40:FF"},
+        {9,"00:06:66:74:41:4C"},
+        {10,"00:06:66:E7:8A:44"},
+        {11,"00:06:66:E7:8A:CD"},
+        {12,"00:06:66:E7:8A:CE"},
+        {13,"00:06:66:E7:8A:D1"},
+        {14,"00:06:66:E7:8A:D6"},
+        {15,"00:06:66:E7:8A:D8"},
+        {16,"00:06:66:E7:8A:D9"},
+        {17,"00:06:66:E7:8A:DE"},
+        {18,"00:06:66:E7:8A:E1"},
+        {19,"00:06:66:E7:8A:E5"},
+        {20,"00:06:66:E7:8A:E6"},
+        {21,"00:06:66:E7:8E:59"},
+        {22,"00:06:66:E7:8E:64"},
+        {23,"00:06:66:D2:CF:7B"},
+        {24,"00:06:66:D2:CF:82"},
+        {25,"00:06:66:D2:CF:83"},
+        {26,"00:06:66:D2:CF:85"},
+        {27,"00:06:66:D2:CF:91"},
+        {28,"00:06:66:D2:CF:8B"},
+        {29,"00:06:66:D2:CF:97"},
+        {30,"00:06:66:D2:CF:96"},
+        {31,"00:06:66:74:43:00"},
+        {32,"00:06:66:74:40:D2"}
     };
 
     // The cellulo mac address selected in the scanner view
@@ -147,8 +186,8 @@ public class CelluloManager : MonoBehaviour
         Canvas.ForceUpdateCanvases();
         _cellulosListScrollRect.verticalNormalizedPosition = 0;
         Canvas.ForceUpdateCanvases();
-
     }
+
     /// <summary>
     /// Deletes an agent with the given id.
     /// </summary>

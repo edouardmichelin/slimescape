@@ -10,8 +10,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        print("yolo");
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Dog"))
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
             m_scoreBoard.Add(player, 0);
         }

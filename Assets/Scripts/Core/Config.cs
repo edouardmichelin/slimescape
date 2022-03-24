@@ -10,16 +10,23 @@ public static class Config
     public static int controlPanelSelectedCellulo = 0; 
 
     // Scanner
-    public const float REFRESH_TIMER = 3f; // seconds after which it will stop and start scanning to refresh
+    public const float REFRESH_TIMER = 1f; // seconds after which it will stop and start scanning to refresh
 
     ///////////////////
     //// CONSTANTS ////
     ///////////////////
 
+	// Tags
+	public const string TAG_DOG = "Dog";
+	public const string TAG_SHEEP = "Sheep";
+	public const string TAG_GHOST = "Ghost";
+	public const string TAG_BORDER = "Border";
+
+
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
     public const int POINTS_FOR_SHEEP_IN_RING = 1;
-    
+
     // Cellulo constant
     public const int CELLULO_KEYS = 6;
     public const float DEFAULT_CONTROL_PERIOD = 0.1f;
