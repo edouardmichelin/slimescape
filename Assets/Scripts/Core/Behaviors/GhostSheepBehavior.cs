@@ -14,14 +14,15 @@ public class GhostSheepBehavior : AgentBehaviour
     
     private GameObject[] m_dogs;
     private int m_rotationDirection = 1;
-    private AudioSource m_audioSource;
+
+    public String soundOnSwitchingToWolf = "wolf";
+    public String soundOnSwitchingToSheep = "winPoint";
     
     public void Start() {
         m_dogs = GameObject.FindGameObjectsWithTag(Config.TAG_DOG);
-        m_audioSource = GetComponent<AudioSource>();
 
         float time = UnityEngine.Random.Range(5f, 20f);
-        Invoke("SwitchRole", time);
+        Invoke(nameof(SwitchRole), time);
     }
     
     public override Steering GetSteering()
@@ -54,13 +55,13 @@ public class GhostSheepBehavior : AgentBehaviour
         {
             this.gameObject.tag = ATTACKING_TAG;
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
-            m_audioSource.PlayOneShot(m_audioSource.clip);
+            AudioManager.Instance.Play(soundOnSwitchingToWolf);
         }
         else
         {
             this.gameObject.tag = FLEEING_TAG;
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
-            m_audioSource.PlayOneShot(m_audioSource.clip);
+            AudioManager.Instance.Play(soundOnSwitchingToSheep);
         }
     }
 

@@ -8,17 +8,20 @@ public class GameManager : Singleton<GameManager>
     private Dictionary<GameObject, int> m_scoreBoard = new Dictionary<GameObject, int>();
     
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
             m_scoreBoard.Add(player, 0);
         }
+
+        AudioManager.Instance.Init();
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         print("--- Scoreboard ---");
         
         foreach (var entry in m_scoreBoard)
@@ -27,6 +30,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         print("------------------");
+        */
     }
 
     public Dictionary<GameObject, int> ScoreBoard
