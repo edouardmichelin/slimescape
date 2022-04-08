@@ -25,7 +25,6 @@ public static class Config
 	public const string TAG_GHOST = "Ghost";
 	public const string TAG_BORDER = "Border";
 
-
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
     public const int POINTS_FOR_SHEEP_IN_RING = 1;

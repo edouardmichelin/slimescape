@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    
-    public int position = 0;
-    public int samplerate = 44100;
-    public float frequency = 440;
-
     public float MasterVolume
     {
         set
@@ -31,6 +26,12 @@ public class AudioManager : Singleton<AudioManager>
         set { effect.volume = value;  }
     }
     
+    public float GlobalEffectVolume
+    {
+        get { return globalEffect.volume;  }
+        set { globalEffect.volume = value;  }
+    }
+    
     public bool muteBackgroundMusic
     {
         get { return music.mute;  }
@@ -39,12 +40,15 @@ public class AudioManager : Singleton<AudioManager>
 
     private AudioSource music;
     private AudioSource effect;
+    private AudioSource globalEffect;
     private Dictionary<String, AudioClip> m_clips = new Dictionary<string, AudioClip>();
 
     public void Init()
     {
         music = gameObject.AddComponent<AudioSource>();
         effect = gameObject.AddComponent<AudioSource>();
+        globalEffect = gameObject.AddComponent<AudioSource>();
+        
         music.loop = true;
         
         foreach (var clip in Resources.LoadAll<AudioClip>("Audio"))
@@ -59,6 +63,11 @@ public class AudioManager : Singleton<AudioManager>
     {
         Play(name, effect);
     }
+
+    public void PlayGlobalEffect(String name)
+    {
+        Play(name, globalEffect);
+    }
     
     public void PlayBackgroundMusic(String name)
     {
@@ -69,6 +78,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (m_clips.TryGetValue(name, out AudioClip clip))
         {
+            source.Stop();
             source.clip = clip;
             source.Play();
         }

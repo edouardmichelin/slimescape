@@ -72,6 +72,8 @@ public class GameManager : Singleton<GameManager>
             return;
 
         m_isGameStarted = true;
+        
+        m_scoreBoard = new Dictionary<InputKeyboard, int>();
 
         foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
@@ -82,7 +84,7 @@ public class GameManager : Singleton<GameManager>
 
     private void GameOver()
     {
-        AudioManager.Instance.PlaySoundEffect("gameOver");
+        AudioManager.Instance.PlayGlobalEffect("gameOver");
         
         Timer = Config.GAME_DURATION;
         IsGamePaused = true;
@@ -93,9 +95,7 @@ public class GameManager : Singleton<GameManager>
             m_gameOverObj.SetActive(true);
             m_gameOverObj = null;
         }
-        
-        m_scoreBoard = new Dictionary<InputKeyboard, int>();
-        
+
     }
 
     public bool TryGetScoreOf(InputKeyboard playerId, out int score)

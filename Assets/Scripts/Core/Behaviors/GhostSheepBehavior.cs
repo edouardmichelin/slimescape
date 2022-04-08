@@ -33,7 +33,7 @@ public class GhostSheepBehavior : AgentBehaviour
 
         if (TryGetAxis(out float horizontal, out float vertical))
         {
-            steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel * 0.8f;
+            steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel * 0.85f;
             steering.linear = this
                 .transform
                 .parent
@@ -55,7 +55,7 @@ public class GhostSheepBehavior : AgentBehaviour
                 if (!IsFleeing())
                 {
                     GameManager.Instance.TryUpdateScoreOf(collider, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GHOST);
-                    AudioManager.Instance.PlaySoundEffect("losePoint");
+                    AudioManager.Instance.PlayGlobalEffect("losePoint");
                     SwitchRole();
                 }
                 break;
@@ -78,7 +78,7 @@ public class GhostSheepBehavior : AgentBehaviour
         }
 
         float time = UnityEngine.Random.Range(10f, 25f);
-        Invoke(nameof(SwitchRole), time);
+        // Invoke(nameof(SwitchRole), time);
     }
 
     private void SwitchRotationDirection()
@@ -97,7 +97,7 @@ public class GhostSheepBehavior : AgentBehaviour
         vertical = 0f;
 
         float multiplier = 0f;
-        float shortestDistance = Config.UNITY_MAP_DIMENSION_X;
+        float shortestDistance = float.PositiveInfinity;
 
         if (m_dogs.Length == 0)
             return false;
@@ -115,7 +115,7 @@ public class GhostSheepBehavior : AgentBehaviour
             if (d < shortestDistance)
             {
                 shortestDistance = d;
-                nearestDogDistanceVector = transform.position - dog.transform.position;
+                nearestDogDistanceVector = distanceVector;
             }
 
             // the closer the dogs are, the more dangerous it is for the sheep
