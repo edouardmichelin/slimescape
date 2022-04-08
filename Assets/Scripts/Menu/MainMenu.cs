@@ -38,6 +38,7 @@ public class MainMenu : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        GameManager.Instance.StopGame();
     }
 
     public void Resume()

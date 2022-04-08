@@ -82,14 +82,19 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void GameOver()
+    public void StopGame()
     {
-        AudioManager.Instance.PlayGlobalEffect("gameOver");
-        
         Timer = Config.GAME_DURATION;
         IsGamePaused = true;
         m_isGameStarted = false;
-        
+    }
+
+    private void GameOver()
+    {
+        AudioManager.Instance.PlayGlobalEffect("gameOver");
+
+        StopGame();
+
         if (m_gameOverObj != null)
         {
             m_gameOverObj.SetActive(true);
