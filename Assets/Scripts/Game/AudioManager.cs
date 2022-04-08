@@ -11,6 +11,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             music.volume = value;
             effect.volume = value;
+            globalEffect.volume = value;
         }
     }
     
