@@ -16,7 +16,10 @@ public static class Config
     //// CONSTANTS ////
     ///////////////////
 
-	// Tags
+    // Game Constants
+    public const float GAME_DURATION = 5f;
+    
+    // Tags
 	public const string TAG_DOG = "Dog";
 	public const string TAG_SHEEP = "Sheep";
 	public const string TAG_GHOST = "Ghost";

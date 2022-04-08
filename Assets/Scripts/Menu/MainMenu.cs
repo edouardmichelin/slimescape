@@ -42,6 +42,11 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {
+        if (!GameManager.Instance.HasGameStarted)
+        {
+            GameManager.Instance.StartGame();
+        }
+        
         GameManager.Instance.IsGamePaused = false;
     }
 }
