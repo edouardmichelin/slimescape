@@ -6,9 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Start()
+    public float MasterVolume
     {
-        GameManager.Instance.Init();
+        set { AudioManager.Instance.MasterVolume = value; }
+    }
+    
+    public float MusicVolume
+    {
+        set { AudioManager.Instance.MusicVolume = value;  }
+    }
+    
+    public float EffectsVolume
+    {
+        set { AudioManager.Instance.EffectsVolume = value;  }
+    }
+
+    public bool BackgroundMusicToggle
+    {
+        set { AudioManager.Instance.muteBackgroundMusic = !value;  }
     }
 
     public void PlayGame()
@@ -23,5 +38,10 @@ public class MainMenu : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void Resume()
+    {
+        GameManager.Instance.IsGamePaused = false;
     }
 }

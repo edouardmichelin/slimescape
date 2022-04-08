@@ -55,13 +55,13 @@ public class GhostSheepBehavior : AgentBehaviour
         {
             this.gameObject.tag = ATTACKING_TAG;
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
-            AudioManager.Instance.Play(soundOnSwitchingToWolf);
+            AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
         }
         else
         {
             this.gameObject.tag = FLEEING_TAG;
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
-            AudioManager.Instance.Play(soundOnSwitchingToSheep);
+            AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
         }
     }
 

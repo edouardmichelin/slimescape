@@ -6,16 +6,29 @@ using TMPro;
 public class GameManager : Singleton<GameManager>
 {
     private Dictionary<GameObject, int> m_scoreBoard = new Dictionary<GameObject, int>();
+    private bool m_isInitialized = false;
     
     // Start is called before the first frame update
     public void Init()
     {
+        if (m_isInitialized) return;
+        
         foreach (GameObject player in GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
             m_scoreBoard.Add(player, 0);
         }
 
         AudioManager.Instance.Init();
+
+        IsGamePaused = true;
+
+        m_isInitialized = true;
+    }
+
+    public bool IsGamePaused
+    {
+        get { return Time.timeScale == 1; }
+        set { Time.timeScale = value ? 0 : 1; }
     }
 
     // Update is called once per frame
