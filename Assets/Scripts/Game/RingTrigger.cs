@@ -24,6 +24,7 @@ public class RingTrigger : MonoBehaviour
         {
             GameObject nearest = GetNearestDogFrom(other.gameObject);
             GameManager.Instance.TryUpdateScoreOf(nearest, Config.POINTS_FOR_SHEEP_IN_RING);
+            AudioManager.Instance.PlaySoundEffect("winPoint");
         }
     }
 

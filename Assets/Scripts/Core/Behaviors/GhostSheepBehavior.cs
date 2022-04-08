@@ -15,7 +15,7 @@ public class GhostSheepBehavior : AgentBehaviour
     private int m_rotationDirection = 1;
 
     public String soundOnSwitchingToWolf = "wolf";
-    public String soundOnSwitchingToSheep = "winPoint";
+    public String soundOnSwitchingToSheep = "sheep";
 
     public void Start()
     {
@@ -55,6 +55,7 @@ public class GhostSheepBehavior : AgentBehaviour
                 if (!IsFleeing())
                 {
                     GameManager.Instance.TryUpdateScoreOf(collider, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GHOST);
+                    AudioManager.Instance.PlaySoundEffect("losePoint");
                     SwitchRole();
                 }
                 break;

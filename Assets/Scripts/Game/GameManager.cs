@@ -82,6 +82,8 @@ public class GameManager : Singleton<GameManager>
 
     private void GameOver()
     {
+        AudioManager.Instance.PlaySoundEffect("gameOver");
+        
         Timer = Config.GAME_DURATION;
         IsGamePaused = true;
         m_isGameStarted = false;
