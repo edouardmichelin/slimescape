@@ -17,7 +17,6 @@ public class RingTrigger : MonoBehaviour
         if (other.transform.parent.gameObject.CompareTag(Config.TAG_SHEEP))
         {
             GameObject nearest = GetNearestDogFrom(other.gameObject);
-            print(nearest.name);
             GameManager.Instance.TryUpdateScoreOf(nearest, Config.POINTS_FOR_SHEEP_IN_RING);
             AudioManager.Instance.PlayGlobalEffect("winPoint");
         }
