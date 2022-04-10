@@ -78,7 +78,7 @@ public class GhostSheepBehavior : AgentBehaviour
         }
 
         float time = UnityEngine.Random.Range(10f, 25f);
-        // Invoke(nameof(SwitchRole), time);
+        Invoke(nameof(SwitchRole), time);
     }
 
     private void SwitchRotationDirection()
@@ -88,7 +88,7 @@ public class GhostSheepBehavior : AgentBehaviour
 
     private bool IsFleeing()
     {
-        return tag == FLEEING_TAG;
+        return CompareTag(FLEEING_TAG);
     }
 
     private bool TryGetAxis(out float horizontal, out float vertical)
