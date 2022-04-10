@@ -4,33 +4,36 @@ using UnityEngine;
 
 public class GhostSheepBehavior : AgentBehaviour
 {
-    private const float D_MAX = 12f;
-    private const float D_MIN = 5f;
-    private const float D_MIN_ROTATE = 10f;
-    private const float D_MAX_ROTATE = 11.5f;
-    private const float IGNORING_TRESHOLD = 0.5f;
-	private const string FLEEING_TAG = Config.TAG_SHEEP;
-	private const string ATTACKING_TAG = Config.TAG_GHOST;
-    
+    private const float D_MAX = 6f;
+    private const float D_MIN = 1f;
+    private const float D_MIN_ROTATE = 3.5f;
+    private const float D_MAX_ROTATE = 6f;
+    private const string FLEEING_TAG = Config.TAG_SHEEP;
+    private const string ATTACKING_TAG = Config.TAG_GHOST;
+
     private GameObject[] m_dogs;
     private int m_rotationDirection = 1;
-    private AudioSource m_audioSource;
-    
-    public void Start() {
-        m_dogs = GameObject.FindGameObjectsWithTag(Config.TAG_DOG);
-        m_audioSource = GetComponent<AudioSource>();
 
-        float time = UnityEngine.Random.Range(5f, 20f);
-        Invoke("SwitchRole", time);
+    public String soundOnSwitchingToWolf = "wolf";
+    public String soundOnSwitchingToSheep = "sheep";
+
+    public void Start()
+    {
+        m_dogs = GameObject.FindGameObjectsWithTag(Config.TAG_DOG);
+
+        float time = UnityEngine.Random.Range(10f, 25f);
+        Invoke(nameof(SwitchRole), time);
+
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
     }
-    
+
     public override Steering GetSteering()
     {
         Steering steering = new Steering();
 
         if (TryGetAxis(out float horizontal, out float vertical))
         {
-            steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel;
+            steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel * 0.85f;
             steering.linear = this
                 .transform
                 .parent
@@ -39,12 +42,23 @@ public class GhostSheepBehavior : AgentBehaviour
 
         return steering;
     }
-    
+
     void OnCollisionEnter(Collision collisionInfo)
     {
-        if (collisionInfo.collider.gameObject.tag == Config.TAG_BORDER)
+        GameObject collider = collisionInfo.collider.transform.parent.gameObject;
+        switch (collider.tag)
         {
-            SwitchRotationDirection();
+            case Config.TAG_BORDER:
+                SwitchRotationDirection();
+                break;
+            case Config.TAG_DOG:
+                if (!IsFleeing())
+                {
+                    GameManager.Instance.TryUpdateScoreOf(collider, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GHOST);
+                    AudioManager.Instance.PlayGlobalEffect("losePoint");
+                    SwitchRole();
+                }
+                break;
         }
     }
 
@@ -52,16 +66,19 @@ public class GhostSheepBehavior : AgentBehaviour
     {
         if (IsFleeing())
         {
-            this.gameObject.tag = ATTACKING_TAG;
-            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
-            m_audioSource.PlayOneShot(m_audioSource.clip);
+            gameObject.tag = ATTACKING_TAG;
+            agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
+            AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
         }
         else
         {
-            this.gameObject.tag = FLEEING_TAG;
-            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
-            m_audioSource.PlayOneShot(m_audioSource.clip);
+            gameObject.tag = FLEEING_TAG;
+            agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
+            AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
         }
+
+        float time = UnityEngine.Random.Range(Config.MIN_ROLE_TIME, Config.MAX_ROLE_TIME);
+        Invoke(nameof(SwitchRole), time);
     }
 
     private void SwitchRotationDirection()
@@ -71,7 +88,7 @@ public class GhostSheepBehavior : AgentBehaviour
 
     private bool IsFleeing()
     {
-        return this.tag == FLEEING_TAG;
+        return CompareTag(FLEEING_TAG);
     }
 
     private bool TryGetAxis(out float horizontal, out float vertical)
@@ -80,11 +97,11 @@ public class GhostSheepBehavior : AgentBehaviour
         vertical = 0f;
 
         float multiplier = 0f;
-        float shortestDistance = Config.UNITY_MAP_DIMENSION_X;
+        float shortestDistance = float.PositiveInfinity;
 
         if (m_dogs.Length == 0)
             return false;
-        
+
         Vector3 direction = Vector3.zero;
         Vector3 nearestDogDistanceVector = Vector3.zero;
 
@@ -92,13 +109,13 @@ public class GhostSheepBehavior : AgentBehaviour
         {
             float mult = 0f;
 
-            Vector3 distanceVector = this.transform.position - dog.transform.position;
+            Vector3 distanceVector = transform.position - dog.transform.position;
             float d = distanceVector.magnitude;
-            
+
             if (d < shortestDistance)
             {
                 shortestDistance = d;
-                nearestDogDistanceVector = this.transform.position - dog.transform.position;
+                nearestDogDistanceVector = distanceVector;
             }
 
             // the closer the dogs are, the more dangerous it is for the sheep

@@ -12,6 +12,14 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public InputKeyboard inputKeyboard;
 
+    void Start()
+    {
+        agent.SetVisualEffect(
+            VisualEffect.VisualEffectConstAll, 
+            inputKeyboard == InputKeyboard.wasd ? Color.blue : Color.yellow, 
+            0);
+    }
+    
     public override Steering GetSteering()
     {
         float horizontal = Input.GetAxis($"Horizontal_{inputKeyboard}");

@@ -1,48 +1,125 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
-    private Dictionary<GameObject, int> m_scoreBoard = new Dictionary<GameObject, int>();
-    
-    // Start is called before the first frame update
-    void Start()
+    private Dictionary<InputKeyboard, int> m_scoreBoard = new Dictionary<InputKeyboard, int>();
+    private bool m_isInitialized = false;
+    private bool m_isGameStarted = false;
+    private GameObject m_gameOverObj;
+
+    public GameObject GameOverMenu
     {
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
+        set { m_gameOverObj = value; }
+    }
+
+    public float Timer
+    {
+        get;
+        private set;
+    }
+
+    public bool HasGameStarted
+    {
+        get { return m_isGameStarted; }
+        private set { m_isGameStarted = value; }
+    }
+
+    public bool IsGamePaused
+    {
+        get { return Time.timeScale == 0; }
+        set
         {
-            m_scoreBoard.Add(player, 0);
+            Time.timeScale = value ? 0 : 1;
         }
+    }
+    
+    // Initialization
+    public void Init()
+    {
+        if (m_isInitialized) return;
+
+        AudioManager.Instance.Init();
+
+        Timer = Config.GAME_DURATION;
+
+        IsGamePaused = true;
+
+        m_isInitialized = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        print("--- Scoreboard ---");
-        
-        foreach (var entry in m_scoreBoard)
+        if (!IsGamePaused)
         {
-            print($"{entry.Key.name} - {entry.Value} pts");
+            Timer -= Time.deltaTime;
         }
-
-        print("------------------");
+        
+        if (Timer <= 0f)
+        {
+            GameOver();
+        }
     }
 
-    public Dictionary<GameObject, int> ScoreBoard
+    public void StartGame()
     {
-        get
+        if (m_isGameStarted)
+            return;
+
+        m_isGameStarted = true;
+        
+        m_scoreBoard = new Dictionary<InputKeyboard, int>();
+
+        foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
-            return new Dictionary<GameObject, int>(m_scoreBoard);
+            InputKeyboard playerId = player.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard;
+            m_scoreBoard.Add(playerId, 0);
         }
+    }
+
+    public void StopGame()
+    {
+        Timer = Config.GAME_DURATION;
+        IsGamePaused = true;
+        m_isGameStarted = false;
+    }
+
+    private void GameOver()
+    {
+        AudioManager.Instance.PlayGlobalEffect("gameOver");
+
+        StopGame();
+
+        if (m_gameOverObj != null)
+        {
+            m_gameOverObj.SetActive(true);
+            m_gameOverObj = null;
+        }
+
+    }
+
+    public bool TryGetScoreOf(InputKeyboard playerId, out int score)
+    {
+        score = 0;
+        if (!m_scoreBoard.ContainsKey(playerId))
+            return false;
+        
+        score = m_scoreBoard[playerId];
+        return true;
     }
 
     public bool TryUpdateScoreOf(GameObject player, int points)
     {
-        if (!m_scoreBoard.ContainsKey(player))
+        InputKeyboard playerId = player.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard;
+        if (!m_scoreBoard.ContainsKey(playerId))
             return false;
         
-        m_scoreBoard[player] += points;
+        m_scoreBoard[playerId] += points;
         
         return true;
     }

@@ -16,12 +16,16 @@ public static class Config
     //// CONSTANTS ////
     ///////////////////
 
-	// Tags
+    // Game Constants
+    public const float GAME_DURATION = 60f;
+    public const float MIN_ROLE_TIME = 10f;
+    public const float MAX_ROLE_TIME = 18f;
+    
+    // Tags
 	public const string TAG_DOG = "Dog";
 	public const string TAG_SHEEP = "Sheep";
 	public const string TAG_GHOST = "Ghost";
 	public const string TAG_BORDER = "Border";
-
 
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
