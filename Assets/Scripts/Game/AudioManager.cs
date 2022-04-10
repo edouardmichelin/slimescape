@@ -9,48 +9,48 @@ public class AudioManager : Singleton<AudioManager>
     {
         set
         {
-            music.volume = value;
-            effect.volume = value;
-            globalEffect.volume = value;
+            m_music.volume = value;
+            m_effect.volume = value;
+            m_globalEffect.volume = value;
         }
     }
     
     public float MusicVolume
     {
-        get { return music.volume;  }
-        set { music.volume = value;  }
+        get { return m_music.volume;  }
+        set { m_music.volume = value;  }
     }
     
     public float EffectsVolume
     {
-        get { return effect.volume;  }
-        set { effect.volume = value;  }
+        get { return m_effect.volume;  }
+        set { m_effect.volume = value;  }
     }
     
     public float GlobalEffectVolume
     {
-        get { return globalEffect.volume;  }
-        set { globalEffect.volume = value;  }
+        get { return m_globalEffect.volume;  }
+        set { m_globalEffect.volume = value;  }
     }
     
-    public bool muteBackgroundMusic
+    public bool MuteBackgroundMusic
     {
-        get { return music.mute;  }
-        set { music.mute = value;  }
+        get { return m_music.mute;  }
+        set { m_music.mute = value;  }
     }
 
-    private AudioSource music;
-    private AudioSource effect;
-    private AudioSource globalEffect;
+    private AudioSource m_music;
+    private AudioSource m_effect;
+    private AudioSource m_globalEffect;
     private Dictionary<String, AudioClip> m_clips = new Dictionary<string, AudioClip>();
 
     public void Init()
     {
-        music = gameObject.AddComponent<AudioSource>();
-        effect = gameObject.AddComponent<AudioSource>();
-        globalEffect = gameObject.AddComponent<AudioSource>();
+        m_music = gameObject.AddComponent<AudioSource>();
+        m_effect = gameObject.AddComponent<AudioSource>();
+        m_globalEffect = gameObject.AddComponent<AudioSource>();
         
-        music.loop = true;
+        m_music.loop = true;
         
         foreach (var clip in Resources.LoadAll<AudioClip>("Audio"))
         {
@@ -62,17 +62,17 @@ public class AudioManager : Singleton<AudioManager>
     
     public void PlaySoundEffect(String name)
     {
-        Play(name, effect);
+        Play(name, m_effect);
     }
 
     public void PlayGlobalEffect(String name)
     {
-        Play(name, globalEffect);
+        Play(name, m_globalEffect);
     }
     
     public void PlayBackgroundMusic(String name)
     {
-        Play(name, music);
+        Play(name, m_music);
     }
 
     private void Play(String name, AudioSource source)

@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
 
     public bool BackgroundMusicToggle
     {
-        set { AudioManager.Instance.muteBackgroundMusic = !value;  }
+        set { AudioManager.Instance.MuteBackgroundMusic = !value;  }
     }
 
     public void PlayGame()
