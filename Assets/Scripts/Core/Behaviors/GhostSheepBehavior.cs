@@ -77,7 +77,7 @@ public class GhostSheepBehavior : AgentBehaviour
             AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
         }
 
-        float time = UnityEngine.Random.Range(10f, 25f);
+        float time = UnityEngine.Random.Range(Config.MIN_ROLE_TIME, Config.MAX_ROLE_TIME);
         Invoke(nameof(SwitchRole), time);
     }
 
