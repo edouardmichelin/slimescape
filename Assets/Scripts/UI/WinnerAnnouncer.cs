@@ -18,24 +18,25 @@ public class WinnerAnnouncer : MonoBehaviour
 
     public void DisplayWinner()
     {
-        if (GameManager.Instance.TryGetScoreOf(
-                player1.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard, 
-                out int score1)) ;
+        GameManager.Instance.TryGetScoreOf(
+            player1.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard,
+            out int score1);
 
-        if (GameManager.Instance.TryGetScoreOf(
-                player2.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard, 
-                out int score2)) ;
+        GameManager.Instance.TryGetScoreOf(
+            player2.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard,
+            out int score2);
         
         if (score1 > score2)
         {
-            text.text = "Player 1 wins !";
-        } else if (score1 < score2)
+            text.text = "Player 1 wins!";
+        } 
+        else if (score1 < score2)
         {
-            text.text = "Player 2 wins !";
+            text.text = "Player 2 wins!";
         }
         else
         {
-            text.text = "Tie !";
+            text.text = "Tie!";
         }
     }
 }
