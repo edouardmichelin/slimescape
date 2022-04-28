@@ -64,6 +64,7 @@ public class GhostSheepBehavior : AgentBehaviour
 
     private void SwitchRole()
     {
+        CancelInvoke();
         if (IsFleeing())
         {
             gameObject.tag = ATTACKING_TAG;
