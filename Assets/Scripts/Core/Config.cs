@@ -22,10 +22,10 @@ public static class Config
     public const float MAX_ROLE_TIME = 18f;
     
     // Tags
-	public const string TAG_DOG = "Dog";
-	public const string TAG_SHEEP = "Sheep";
-	public const string TAG_GHOST = "Ghost";
-	public const string TAG_BORDER = "Border";
+    public const string TAG_DOG = "Dog";
+    public const string TAG_SHEEP = "Sheep";
+    public const string TAG_GHOST = "Ghost";
+    public const string TAG_BORDER = "Border";
 
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
