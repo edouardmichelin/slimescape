@@ -50,4 +50,9 @@ public class MainMenu : MonoBehaviour
         
         GameManager.Instance.IsGamePaused = false;
     }
+
+    public void Pause()
+    {
+        GameManager.Instance.IsGamePaused = true;
+    }
 }
