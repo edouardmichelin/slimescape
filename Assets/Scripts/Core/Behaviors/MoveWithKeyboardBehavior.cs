@@ -18,6 +18,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
             VisualEffect.VisualEffectConstAll, 
             inputKeyboard == InputKeyboard.wasd ? Color.blue : Color.yellow, 
             0);
+        agent.SetCasualBackdriveAssistEnabled(true);
     }
     
     public override Steering GetSteering()
@@ -31,6 +32,19 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
         
         return steering;
+    }
+
+    //clears remaining haptic effects and enables BackdriveAssist
+    public void MoveNormally()
+    {
+        agent.ClearHapticFeedback();
+        agent.SetCasualBackdriveAssistEnabled(true);
+    }
+
+    //Will override backdriveAssist to false
+    public void moveOnStone(bool boolean)
+    {
+        agent.MoveOnStone();
     }
 
 }
