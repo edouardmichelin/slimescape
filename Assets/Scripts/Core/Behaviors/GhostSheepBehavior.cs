@@ -70,12 +70,14 @@ public class GhostSheepBehavior : AgentBehaviour
             gameObject.tag = ATTACKING_TAG;
             agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
             AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
+            GameManager.Instance.AllMoveOnStone();
         }
         else
         {
             gameObject.tag = FLEEING_TAG;
             agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
             AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
+            GameManager.Instance.AllMoveNormally();
         }
 
         float time = UnityEngine.Random.Range(Config.MIN_ROLE_TIME, Config.MAX_ROLE_TIME);
