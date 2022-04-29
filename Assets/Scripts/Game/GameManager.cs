@@ -8,7 +8,7 @@ using TMPro;
 public class GameManager : Singleton<GameManager>
 {
     private Dictionary<InputKeyboard, int> m_scoreBoard = new Dictionary<InputKeyboard, int>();
-    private MoveWithKeyboardBehavior[] m_players = new MoveWithKeyboardBehavior[2];
+    private Dictionary<MoveWithKeyboardBehavior, bool> m_players = new  Dictionary<MoveWithKeyboardBehavior, bool>();
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
     private GameObject m_gameOverObj;
@@ -75,16 +75,14 @@ public class GameManager : Singleton<GameManager>
         m_isGameStarted = true;
         
         m_scoreBoard = new Dictionary<InputKeyboard, int>();
-        m_players = new MoveWithKeyboardBehavior[2];
+        m_players = m_players = new  Dictionary<MoveWithKeyboardBehavior, bool>();
 
         foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
             MoveWithKeyboardBehavior playerBehavior = player.GetComponent<MoveWithKeyboardBehavior>();
             InputKeyboard playerId = playerBehavior.inputKeyboard;
-            m_players[(int) playerId] = playerBehavior;
+            m_players.Add(playerBehavior, false);
             m_scoreBoard.Add(playerId, 0);
-            
-            playerBehavior.MoveNormally();
         }
     }
 
@@ -93,6 +91,17 @@ public class GameManager : Singleton<GameManager>
         Timer = Config.GAME_DURATION;
         IsGamePaused = true;
         m_isGameStarted = false;
+    }
+
+    public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
+    {
+        if (!m_players.ContainsKey(player))
+            return false;
+
+        m_players[player] = true;
+        if (!m_players.ContainsValue(false))
+            StartGame();
+        return true;
     }
 
     private void GameOver()
