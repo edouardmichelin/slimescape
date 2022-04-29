@@ -47,4 +47,9 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         agent.MoveOnStone();
     }
 
+    public override void OnCelluloLongTouch(int key)
+    {
+        Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
+        GameManager.Instance.TryUpdateReadyState(this);
+    }
 }
