@@ -138,4 +138,20 @@ public class GameManager : Singleton<GameManager>
         
         return true;
     }
+
+    public void AllMoveOnStone()
+    {
+        foreach (MoveWithKeyboardBehavior player in m_players.Keys.ToList())
+        {
+            player.MoveOnStone();
+        }
+    }
+
+    public void AllMoveNormally()
+    {
+        foreach (MoveWithKeyboardBehavior player in m_players.Keys.ToList())
+        {
+            player.MoveNormally();
+        }
+    }
 }
