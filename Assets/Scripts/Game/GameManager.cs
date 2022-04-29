@@ -8,6 +8,7 @@ using TMPro;
 public class GameManager : Singleton<GameManager>
 {
     private Dictionary<InputKeyboard, int> m_scoreBoard = new Dictionary<InputKeyboard, int>();
+    private MoveWithKeyboardBehavior[] m_players = new MoveWithKeyboardBehavior[2];
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
     private GameObject m_gameOverObj;
@@ -74,11 +75,16 @@ public class GameManager : Singleton<GameManager>
         m_isGameStarted = true;
         
         m_scoreBoard = new Dictionary<InputKeyboard, int>();
+        m_players = new MoveWithKeyboardBehavior[2];
 
         foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
-            InputKeyboard playerId = player.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard;
+            MoveWithKeyboardBehavior playerBehavior = player.GetComponent<MoveWithKeyboardBehavior>();
+            InputKeyboard playerId = playerBehavior.inputKeyboard;
+            m_players[(int) playerId] = playerBehavior;
             m_scoreBoard.Add(playerId, 0);
+            
+            playerBehavior.MoveNormally();
         }
     }
 
