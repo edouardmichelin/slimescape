@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -37,6 +38,13 @@ public class AudioManager : Singleton<AudioManager>
     {
         get { return m_music.mute;  }
         set { m_music.mute = value;  }
+    }
+
+    public bool MuteSounds
+    {
+        get { return m_music.mute && m_effect.mute && m_globalEffect.mute; }
+        set { m_music.mute = value; m_effect.mute = value; m_globalEffect.mute = value; }
+        
     }
 
     private AudioSource m_music;
