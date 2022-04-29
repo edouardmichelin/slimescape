@@ -42,7 +42,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     }
 
     //Will override backdriveAssist to false
-    public void MoveOnStone(bool boolean)
+    public void MoveOnStone()
     {
         agent.MoveOnStone();
     }
