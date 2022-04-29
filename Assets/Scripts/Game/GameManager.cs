@@ -123,4 +123,19 @@ public class GameManager : Singleton<GameManager>
         
         return true;
     }
+
+    public bool TrySetTimer (int minutes)
+    {
+        if (minutes <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            Timer = minutes * Config.ONE_MIN_DURATION;
+            return true;
+        }
+    }
+
+    
 }

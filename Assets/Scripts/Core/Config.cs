@@ -20,6 +20,8 @@ public static class Config
     public const float GAME_DURATION = 60f;
     public const float MIN_ROLE_TIME = 10f;
     public const float MAX_ROLE_TIME = 18f;
+    public const float MAX_MINUTES_DURATION = 10f;
+    public const float ONE_MIN_DURATION = 60f;
     
     // Tags
     public const string TAG_DOG = "Dog";
