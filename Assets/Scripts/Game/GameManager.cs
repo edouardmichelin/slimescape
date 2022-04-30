@@ -123,4 +123,19 @@ public class GameManager : Singleton<GameManager>
         
         return true;
     }
+
+    public bool TrySetTimer (int seconds)
+    {
+        if (seconds <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            Timer = seconds;
+            return true;
+        }
+    }
+
+    
 }

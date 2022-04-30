@@ -26,6 +26,11 @@ public class MainMenu : MonoBehaviour
         set { AudioManager.Instance.MuteBackgroundMusic = !value;  }
     }
 
+    public bool SoundToggle
+    {
+        set { AudioManager.Instance.GlobalMute = !value; }
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+ 1);
@@ -49,5 +54,36 @@ public class MainMenu : MonoBehaviour
         }
         
         GameManager.Instance.IsGamePaused = false;
+    }
+
+    public void Pause()
+    {
+        GameManager.Instance.IsGamePaused = true;
+    }
+    
+    public void TryDecrementTimer()
+    {
+        float timer = GameManager.Instance.Timer;
+        if (timer > 0)
+        {
+            GameManager.Instance.TrySetTimer((int)(timer - 60f));
+        }
+    }
+    
+    public void TryIncrementTimer()
+    {
+        float timer = GameManager.Instance.Timer;
+        if (timer <=  Config.MAX_GAME_DURATION)
+        {
+            GameManager.Instance.TrySetTimer((int)(timer + 60f));
+        }
+    }
+
+    public void SetTimerWithInputValue (string seconds)
+    {
+        if (int.TryParse(seconds, out int secondsInt))
+        {
+            GameManager.Instance.TrySetTimer(secondsInt * 60);
+        }
     }
 }
