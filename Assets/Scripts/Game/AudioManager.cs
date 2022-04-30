@@ -40,10 +40,13 @@ public class AudioManager : Singleton<AudioManager>
         set { m_music.mute = value;  }
     }
 
-    public bool MuteSounds
+    public bool GlobalMute
     {
         get { return m_music.mute && m_effect.mute && m_globalEffect.mute; }
-        set { m_music.mute = value; m_effect.mute = value; m_globalEffect.mute = value; }
+        set { m_music.mute = value;
+            m_effect.mute = value;
+            m_globalEffect.mute = value;
+        }
         
     }
 

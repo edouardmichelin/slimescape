@@ -53,7 +53,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
             0);
     }
 
-    public void setControls(int control)
+    public void SetControls(int control)
     {
         inputKeyboard = (InputKeyboard) control;
     }

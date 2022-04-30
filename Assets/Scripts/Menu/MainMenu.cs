@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
 
     public bool SoundToggle
     {
-        set { AudioManager.Instance.MuteSounds  = !value; }
+        set { AudioManager.Instance.GlobalMute = !value; }
     }
 
     public void PlayGame()
@@ -66,25 +66,24 @@ public class MainMenu : MonoBehaviour
         float timer = GameManager.Instance.Timer;
         if (timer > 0)
         {
-            GameManager.Instance.TrySetTimer((int)(timer/Config.ONE_MIN_DURATION) - 1);
+            GameManager.Instance.TrySetTimer((int)(timer - 60f));
         }
     }
     
     public void TryIncrementTimer()
     {
         float timer = GameManager.Instance.Timer;
-        if (timer <=  Config.MAX_MINUTES_DURATION * Config.ONE_MIN_DURATION)
+        if (timer <=  Config.MAX_GAME_DURATION)
         {
-            GameManager.Instance.TrySetTimer((int)(timer/Config.ONE_MIN_DURATION) + 1);
+            GameManager.Instance.TrySetTimer((int)(timer + 60f));
         }
     }
 
-    public void SetTimerWithInputValue (string minutes)
+    public void SetTimerWithInputValue (string seconds)
     {
-        bool result = int.TryParse(minutes, out int minutesInt);
-        if (result)
+        if (int.TryParse(seconds, out int secondsInt))
         {
-            GameManager.Instance.TrySetTimer(minutesInt);
+            GameManager.Instance.TrySetTimer(secondsInt * 60);
         }
     }
 }
