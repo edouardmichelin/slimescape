@@ -21,8 +21,7 @@ public static class Config
     public const float MAX_GAME_DURATION = 600f;
     public const float MIN_ROLE_TIME = 10f;
     public const float MAX_ROLE_TIME = 18f;
-    
-    
+
     // Tags
     public const string TAG_DOG = "Dog";
     public const string TAG_SHEEP = "Sheep";
@@ -32,6 +31,10 @@ public static class Config
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
     public const int POINTS_FOR_SHEEP_IN_RING = 1;
+    public const int POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER = -2;
+    
+    // Spawn intervals
+    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 10f;
 
     // Cellulo constant
     public const int CELLULO_KEYS = 6;
