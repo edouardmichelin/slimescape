@@ -35,14 +35,13 @@ public class CelluloAgent : SteeringAgent
     /// <summary>
     /// Fixed update loop
     /// </summary>
-    protected override void FixedUpdate() {
-        clock_t += Time.deltaTime;
+    protected void Update() {
+        clock_t += Time.unscaledDeltaTime;
 
         if (_celluloRobot!=null) {
             _celluloRobot.UpdateProperties();
             if(isConnected) RealToUnity();
         }
-        base.FixedUpdate();
     }
 
     /// <summary>

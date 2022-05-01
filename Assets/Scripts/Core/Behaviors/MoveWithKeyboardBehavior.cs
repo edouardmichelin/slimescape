@@ -43,7 +43,25 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         
         return steering;
     }
+    
+    //clears remaining haptic effects and enables BackdriveAssist
+    public void MoveNormally()
+    {
+        agent.ClearHapticFeedback();
+        agent.SetCasualBackdriveAssistEnabled(true);
+    }
 
+    //Will override backdriveAssist to false
+    public void MoveOnStone()
+    {
+        agent.MoveOnStone();
+    }
+
+    public override void OnCelluloLongTouch(int key)
+    {
+        Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
+        GameManager.Instance.TryUpdateReadyState(this);
+    }
     public void SetColor(int color)
     {
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
@@ -57,5 +75,4 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         inputKeyboard = (InputKeyboard) control;
     }
-
 }
