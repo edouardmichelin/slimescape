@@ -1,5 +1,6 @@
-/Assets/Plugins/windows
-/Assets/Plugins/macOS
+.idea/
+*.idea/
+/Assets/Plugins/
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
