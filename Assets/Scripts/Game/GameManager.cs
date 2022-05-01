@@ -14,7 +14,6 @@ public class GameManager : Singleton<GameManager>
     private bool m_isGameStarted = false;
     private bool m_isGamePaused = false;
     private GameObject m_gameOverObj;
-    private IList m_pausables = new List<PausableAgent>();
 
     public GameObject GameOverMenu
     {
@@ -35,21 +34,6 @@ public class GameManager : Singleton<GameManager>
 
     public bool IsGamePaused
     {
-/*
-        get { return m_isGamePaused; }
-        set
-        {
-            m_isGamePaused = value;
-            if (value)
-            {
-                PauseAll();
-            }
-            else
-            {
-                WakeUpAll();
-            }
-        }
-*/
         get { return Time.timeScale == 0f; }
         set { Time.timeScale = value ? 0f : 1f; }
     }
@@ -107,23 +91,7 @@ public class GameManager : Singleton<GameManager>
         IsGamePaused = true;
         m_isGameStarted = false;
     }
-
-    public void WakeUpAll()
-    {
-        foreach (PausableAgent pausable in m_pausables)
-        {
-            pausable.Unpause();
-        }
-    }
-
-    public void PauseAll()
-    {
-        foreach (PausableAgent pausable in m_pausables)
-        {
-            pausable.Pause();
-        }
-    }
-
+    
     public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
     {
         if (!m_players.ContainsKey(player))
@@ -190,13 +158,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void RegisterPausable(PausableAgent pausableAgent)
-    {
-        m_pausables.Add(pausableAgent);
-        if (IsGamePaused)
-            pausableAgent.Pause();
-    }
-    
     public bool TrySetTimer (int seconds)
     {
         if (seconds <= 0)
