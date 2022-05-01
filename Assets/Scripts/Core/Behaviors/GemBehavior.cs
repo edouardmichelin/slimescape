@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class GemBehavior : AgentBehaviour
 {
-    void Update()
+    void Start()
     {
-        // transform.Rotate(0, 90 * Time.deltaTime, 0);
+        if (SpawnManager.Instance.gem == null)
+            SpawnManager.Instance.gem = gameObject;
     }
     
-    void OnCollisionEnter(Collision collisionInfo)
+    void OnTriggerEnter(Collider other)
     {
-        GameObject collider = collisionInfo.collider.transform.parent.gameObject;
+        GameObject collider = other.transform.parent.gameObject;
+        
         if (collider.CompareTag(Config.TAG_DOG))
         {
             if (GameManager.Instance.TrySetNewGemOwner(collider))
-                Destroy(this);
+            {
+                AudioManager.Instance.PlaySoundEffect("gemTake");
+                Destroy(gameObject);
+            }
         }
     }
 }

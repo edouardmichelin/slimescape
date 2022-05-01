@@ -7,7 +7,6 @@ public enum InputKeyboard
 {
     arrows = 0,
     wasd = 1,
-    NULL = -1
 }
 
 public enum Colors
@@ -30,9 +29,10 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     void Start()
     {
-        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.grey,  0);
+        GameManager.Instance.RegisterPlayer(this);
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
     }
-    
+
     public override Steering GetSteering()
     {
         float horizontal = Input.GetAxis($"Horizontal_{inputKeyboard}");
@@ -89,6 +89,8 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
             {
                 GameManager.Instance.TryUpdateScoreOf(collider, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
                 GameManager.Instance.TryUpdateScoreOf(this.gameObject, -1 * Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
+                AudioManager.Instance.PlaySoundEffect("stealPoints");
+                IsGemOwner = false;
             }
         }
     }

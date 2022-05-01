@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -16,6 +17,11 @@ public class GameManager : Singleton<GameManager>
     private bool m_isGameStarted = false;
     private bool m_isGamePaused = false;
     private GameObject m_gameOverObj;
+
+    public void RegisterPlayer(MoveWithKeyboardBehavior player)
+    {
+        m_readyStates.Add(player.inputKeyboard, false);
+    }
 
     public GameObject GameOverMenu
     {
@@ -44,6 +50,10 @@ public class GameManager : Singleton<GameManager>
     public void Init()
     {
         if (m_isInitialized) return;
+        
+        m_scoreBoard = new Dictionary<InputKeyboard, int>();
+        m_readyStates = new Dictionary<InputKeyboard, bool>();
+        m_playerBehaviors = new Dictionary<InputKeyboard, MoveWithKeyboardBehavior>();
 
         AudioManager.Instance.Init();
 
@@ -79,22 +89,23 @@ public class GameManager : Singleton<GameManager>
         m_readyStates = new Dictionary<InputKeyboard, bool>();
         m_playerBehaviors = new Dictionary<InputKeyboard, MoveWithKeyboardBehavior>();
 
-
         foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
             if (TryGetPlayerIdFromGameObject(player, out InputKeyboard playerId))
             {
-
-                m_readyStates.Add(playerId, false);
+                m_readyStates.Add(playerId, true);
                 m_scoreBoard.Add(playerId, 0);
                 m_playerBehaviors.Add(playerId, player.GetComponent<MoveWithKeyboardBehavior>());
             }
         }
+        
+        SpawnManager.Instance.Enable();
     }
 
     public void StopGame()
     {
         Timer = Config.GAME_DURATION;
+        SpawnManager.Instance.Disable();
         IsGamePaused = true;
         m_isGameStarted = false;
     }
@@ -102,6 +113,7 @@ public class GameManager : Singleton<GameManager>
     public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
     {
         GameObject[] menus = GameObject.FindGameObjectsWithTag(Config.TAG_START_PROMPT);
+        
         if (!m_readyStates.ContainsKey(player.inputKeyboard) || menus.Length == 0)
             return false;
 
@@ -118,11 +130,6 @@ public class GameManager : Singleton<GameManager>
                 StartGame();
                 IsGamePaused = false;
             }
-        }
-        
-        foreach (var keyValuePair in m_readyStates)
-        {
-            print($"{keyValuePair.Key} is {keyValuePair.Value}");
         }
         
         return true;
@@ -181,7 +188,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public bool TrySetTimer (int seconds)
+    public bool TrySetTimer(int seconds)
     {
         if (seconds <= 0)
         {
@@ -212,7 +219,7 @@ public class GameManager : Singleton<GameManager>
     
     public bool TryGetPlayerIdFromGameObject(GameObject obj, out InputKeyboard playerId)
     {
-        playerId = InputKeyboard.NULL;
+        playerId = InputKeyboard.arrows;
         
         MoveWithKeyboardBehavior player = obj.GetComponent<MoveWithKeyboardBehavior>();
 

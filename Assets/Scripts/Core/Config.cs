@@ -35,7 +35,7 @@ public static class Config
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER = -2;
     
     // Spawn intervals
-    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 10f;
+    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 25f;
 
     // Cellulo constant
     public const int CELLULO_KEYS = 6;
