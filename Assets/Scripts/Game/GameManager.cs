@@ -82,12 +82,13 @@ public class GameManager : Singleton<GameManager>
 
         foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
-            MoveWithKeyboardBehavior playerBehavior = player.GetComponent<MoveWithKeyboardBehavior>();
-            InputKeyboard playerBehavior = playerBehavior.inputKeyboard;
+            if (TryGetPlayerIdFromGameObject(player, out InputKeyboard playerId))
+            {
 
-            m_readyStates.Add(playerId, false);
-            m_scoreBoard.Add(playerId, 0);
-            m_playerBehaviors.Add(playerId, playerBehavior);
+                m_readyStates.Add(playerId, false);
+                m_scoreBoard.Add(playerId, 0);
+                m_playerBehaviors.Add(playerId, player.GetComponent<MoveWithKeyboardBehavior>());
+            }
         }
     }
 
@@ -100,12 +101,24 @@ public class GameManager : Singleton<GameManager>
     
     public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
     {
-        if (!m_readyStates.ContainsKey(player.inputKeyboard))
+        GameObject[] menus = GameObject.FindGameObjectsWithTag(Config.TAG_START_PROMPT);
+        if (!m_readyStates.ContainsKey(player.inputKeyboard) || menus.Length == 0)
             return false;
 
         m_readyStates[player.inputKeyboard] = true;
         if (!m_readyStates.ContainsValue(false))
-            StartGame();
+        {
+            foreach (GameObject menu in menus)
+            {
+                menu.SetActive(false);
+            }
+
+            if (!HasGameStarted)
+            {
+                StartGame();
+                IsGamePaused = false;
+            }
+        }
         
         foreach (var keyValuePair in m_readyStates)
         {
@@ -140,7 +153,7 @@ public class GameManager : Singleton<GameManager>
 
     public bool TryUpdateScoreOf(GameObject player, int points)
     {
-        if (!TryGetPlayerIdFromGameObject(owner, out InputKeyboard playerId))
+        if (!TryGetPlayerIdFromGameObject(player, out InputKeyboard playerId))
             return false;
         
         if (!m_scoreBoard.ContainsKey(playerId))
@@ -153,7 +166,7 @@ public class GameManager : Singleton<GameManager>
     
     public void AllMoveOnStone()
     {
-        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values())
+        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values)
         {
             player.MoveOnStone();
         }
@@ -161,7 +174,7 @@ public class GameManager : Singleton<GameManager>
 
     public void AllMoveNormally()
     {
-        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values())
+        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values)
         {
             player.MoveNormally();
         }
@@ -188,21 +201,19 @@ public class GameManager : Singleton<GameManager>
         if (!m_scoreBoard.ContainsKey(playerId))
             return false;
         
-        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values())
+        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values)
         {
-            player.IsGemOwner = false;
+            player.IsGemOwner = player.inputKeyboard == playerId;
         }
-
-        owner.IsGemOwner = true;
 
         return true;
     }
     
-    public bool TryGetPlayerIdFromGameObject(GameObject object, out InputKeyboard playerId)
+    public bool TryGetPlayerIdFromGameObject(GameObject obj, out InputKeyboard playerId)
     {
-        playerId = null;
+        playerId = InputKeyboard.NULL;
         
-        MoveWithKeyboardBehavior player = player.GetComponent<MoveWithKeyboardBehavior>();
+        MoveWithKeyboardBehavior player = obj.GetComponent<MoveWithKeyboardBehavior>();
 
         if (player == null)
             return false;

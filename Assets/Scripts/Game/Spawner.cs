@@ -9,14 +9,9 @@ public class Spawner : MonoBehaviour
 
     public GemBehavior gem;
 
-    public void Start()
-    {
-        
-    }
-
     void Update()
     {
-        timer += Time.deltaTime;
+        m_timer += Time.deltaTime;
         
         /// call spawners
         SpawnGem();
@@ -24,7 +19,7 @@ public class Spawner : MonoBehaviour
 
     void SpawnGem()
     {
-        if ((timer % Config.SPAWNER_GEMS_MAX_TIME_INTERVAL) < 0.1)
+        if ((m_timer % Config.SPAWNER_GEMS_MAX_TIME_INTERVAL) < 0.1)
         {
             Instantiate(gem, GetRandomCoordinates(), Quaternion.identity);
         }

@@ -6,7 +6,7 @@ public class GemBehavior : AgentBehaviour
 {
     void Update()
     {
-        transform.Rotate(0, 90 * Time.deltaTime, 0);
+        // transform.Rotate(0, 90 * Time.deltaTime, 0);
     }
     
     void OnCollisionEnter(Collision collisionInfo)

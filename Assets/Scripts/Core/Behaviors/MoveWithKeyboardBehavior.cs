@@ -6,7 +6,8 @@ using UnityEngine;
 public enum InputKeyboard
 {
     arrows = 0,
-    wasd = 1
+    wasd = 1,
+    NULL = -1
 }
 
 public enum Colors
@@ -87,7 +88,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
             if (collider.CompareTag(Config.TAG_DOG))
             {
                 GameManager.Instance.TryUpdateScoreOf(collider, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
-                GameManager.Instance.TryUpdateScoreOf(this, -1 * Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
+                GameManager.Instance.TryUpdateScoreOf(this.gameObject, -1 * Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
             }
         }
     }
