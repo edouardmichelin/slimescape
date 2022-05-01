@@ -173,7 +173,7 @@ public class GameManager : Singleton<GameManager>
         
         return true;
     }
-
+    
     public void AllMoveOnStone()
     {
         foreach (MoveWithKeyboardBehavior player in m_players.Keys.ToList())
@@ -195,5 +195,18 @@ public class GameManager : Singleton<GameManager>
         m_pausables.Add(pausableAgent);
         if (IsGamePaused)
             pausableAgent.Pause();
+    }
+    
+    public bool TrySetTimer (int seconds)
+    {
+        if (seconds <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            Timer = seconds;
+            return true;
+        }
     }
 }
