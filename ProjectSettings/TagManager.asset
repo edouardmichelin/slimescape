@@ -8,6 +8,7 @@ TagManager:
   - Sheep
   - Ghost
   - Border
+  - StartGamePrompt
   layers:
   - Default
   - TransparentFX
