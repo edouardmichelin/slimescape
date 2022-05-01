@@ -124,6 +124,7 @@ public class GameManager : Singleton<GameManager>
         {
             print($"{keyValuePair.Key} is {keyValuePair.Value}");
         }
+        
         return true;
     }
 
