@@ -27,6 +27,7 @@ public static class Config
     public const string TAG_SHEEP = "Sheep";
     public const string TAG_GHOST = "Ghost";
     public const string TAG_BORDER = "Border";
+    public const string TAG_START_PROMPT = "StartGamePrompt";
 
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
