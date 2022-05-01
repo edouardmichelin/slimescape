@@ -7,8 +7,10 @@ using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
-    private Dictionary<InputKeyboard, int> m_scoreBoard = new Dictionary<InputKeyboard, int>();
-    private Dictionary<MoveWithKeyboardBehavior, bool> m_players = new  Dictionary<MoveWithKeyboardBehavior, bool>();
+    private Dictionary<InputKeyboard, int> m_scoreBoard;
+    private Dictionary<InputKeyboard, bool> m_readyStates;
+    private Dictionary<InputKeyboard, MoveWithKeyboardBehavior> m_playerBehaviors;
+    
     private List<CelluloAgent> m_sleeping;
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
@@ -74,14 +76,18 @@ public class GameManager : Singleton<GameManager>
         m_isGameStarted = true;
         
         m_scoreBoard = new Dictionary<InputKeyboard, int>();
-        m_players = m_players = new  Dictionary<MoveWithKeyboardBehavior, bool>();
+        m_readyStates = new Dictionary<InputKeyboard, bool>();
+        m_playerBehaviors = new Dictionary<InputKeyboard, MoveWithKeyboardBehavior>();
+
 
         foreach (GameObject player in  GameObject.FindGameObjectsWithTag(Config.TAG_DOG))
         {
             MoveWithKeyboardBehavior playerBehavior = player.GetComponent<MoveWithKeyboardBehavior>();
-            InputKeyboard playerId = playerBehavior.inputKeyboard;
-            m_players.Add(playerBehavior, false);
+            InputKeyboard playerBehavior = playerBehavior.inputKeyboard;
+
+            m_readyStates.Add(playerId, false);
             m_scoreBoard.Add(playerId, 0);
+            m_playerBehaviors.Add(playerId, playerBehavior);
         }
     }
 
@@ -94,13 +100,14 @@ public class GameManager : Singleton<GameManager>
     
     public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
     {
-        if (!m_players.ContainsKey(player))
+        if (!m_readyStates.ContainsKey(player.inputKeyboard))
             return false;
 
-        m_players[player] = true;
-        if (!m_players.ContainsValue(false))
+        m_readyStates[player.inputKeyboard] = true;
+        if (!m_readyStates.ContainsValue(false))
             StartGame();
-        foreach (var keyValuePair in m_players)
+        
+        foreach (var keyValuePair in m_readyStates)
         {
             print($"{keyValuePair.Key} is {keyValuePair.Value}");
         }
@@ -133,7 +140,9 @@ public class GameManager : Singleton<GameManager>
 
     public bool TryUpdateScoreOf(GameObject player, int points)
     {
-        InputKeyboard playerId = player.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard;
+        if (!TryGetPlayerIdFromGameObject(owner, out InputKeyboard playerId))
+            return false;
+        
         if (!m_scoreBoard.ContainsKey(playerId))
             return false;
         
@@ -144,7 +153,7 @@ public class GameManager : Singleton<GameManager>
     
     public void AllMoveOnStone()
     {
-        foreach (MoveWithKeyboardBehavior player in m_players.Keys.ToList())
+        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values())
         {
             player.MoveOnStone();
         }
@@ -152,7 +161,7 @@ public class GameManager : Singleton<GameManager>
 
     public void AllMoveNormally()
     {
-        foreach (MoveWithKeyboardBehavior player in m_players.Keys.ToList())
+        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values())
         {
             player.MoveNormally();
         }
@@ -169,5 +178,37 @@ public class GameManager : Singleton<GameManager>
             Timer = seconds;
             return true;
         }
+    }
+
+    public bool TrySetNewGemOwner(GameObject owner)
+    {
+        if (!TryGetPlayerIdFromGameObject(owner, out InputKeyboard playerId))
+            return false;
+        
+        if (!m_scoreBoard.ContainsKey(playerId))
+            return false;
+        
+        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values())
+        {
+            player.IsGemOwner = false;
+        }
+
+        owner.IsGemOwner = true;
+
+        return true;
+    }
+    
+    public bool TryGetPlayerIdFromGameObject(GameObject object, out InputKeyboard playerId)
+    {
+        playerId = null;
+        
+        MoveWithKeyboardBehavior player = player.GetComponent<MoveWithKeyboardBehavior>();
+
+        if (player == null)
+            return false;
+
+        playerId = player.inputKeyboard;
+        
+        return true;
     }
 }
