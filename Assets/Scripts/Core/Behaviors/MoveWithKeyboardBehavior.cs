@@ -15,20 +15,21 @@ public enum Colors
     Pink = 1,
     Yellow = 2
 }
+
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public InputKeyboard inputKeyboard;
     public Colors color;
+    
+    public bool IsGemOwner
+    {
+        get;
+        set;
+    }
 
     void Start()
     {
-        //previous implementation
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.grey,  0);
-        //agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
-        //    color == Colors.Blue ? Color.cyan :
-        //    color == Colors.Pink ? Color.magenta :
-        //    color == Colors.Yellow ? Color.yellow : Color.gray,
-         //   0);
     }
     
     public override Steering GetSteering()
@@ -44,14 +45,14 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         return steering;
     }
     
-    //clears remaining haptic effects and enables BackdriveAssist
+    // clears remaining haptic effects and enables BackdriveAssist
     public void MoveNormally()
     {
         agent.ClearHapticFeedback();
         agent.SetCasualBackdriveAssistEnabled(true);
     }
 
-    //Will override backdriveAssist to false
+    // Will override backdriveAssist to false
     public void MoveOnStone()
     {
         agent.MoveOnStone();
@@ -62,6 +63,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
         GameManager.Instance.TryUpdateReadyState(this);
     }
+    
     public void SetColor(int color)
     {
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
@@ -74,5 +76,19 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public void SetControls(int control)
     {
         inputKeyboard = (InputKeyboard) control;
+    }
+    
+    
+    void OnCollisionEnter(Collision collisionInfo)
+    {
+        if (IsGemOwner)
+        {
+            GameObject collider = collisionInfo.collider.transform.parent.gameObject;
+            if (collider.CompareTag(Config.TAG_DOG))
+            {
+                GameManager.Instance.TryUpdateScoreOf(collider, Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
+                GameManager.Instance.TryUpdateScoreOf(this, -1 * Config.POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER);
+            }
+        }
     }
 }
