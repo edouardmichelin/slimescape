@@ -8,16 +8,27 @@ public enum InputKeyboard
     arrows = 0,
     wasd = 1
 }
+
+public enum Colors
+{
+    Blue = 0,
+    Pink = 1,
+    Yellow = 2
+}
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public InputKeyboard inputKeyboard;
+    public Colors color;
 
     void Start()
     {
-        agent.SetVisualEffect(
-            VisualEffect.VisualEffectConstAll, 
-            inputKeyboard == InputKeyboard.wasd ? Color.blue : Color.yellow, 
-            0);
+        //previous implementation
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.grey,  0);
+        //agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
+        //    color == Colors.Blue ? Color.cyan :
+        //    color == Colors.Pink ? Color.magenta :
+        //    color == Colors.Yellow ? Color.yellow : Color.gray,
+         //   0);
     }
     
     public override Steering GetSteering()
@@ -32,5 +43,36 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         
         return steering;
     }
+    
+    //clears remaining haptic effects and enables BackdriveAssist
+    public void MoveNormally()
+    {
+        agent.ClearHapticFeedback();
+        agent.SetCasualBackdriveAssistEnabled(true);
+    }
 
+    //Will override backdriveAssist to false
+    public void MoveOnStone()
+    {
+        agent.MoveOnStone();
+    }
+
+    public override void OnCelluloLongTouch(int key)
+    {
+        Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
+        GameManager.Instance.TryUpdateReadyState(this);
+    }
+    public void SetColor(int color)
+    {
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
+            (Colors)color == Colors.Blue ? Color.cyan :
+            (Colors)color == Colors.Pink ? Color.magenta :
+            (Colors)color == Colors.Yellow ? Color.yellow : Color.gray,
+            0);
+    }
+
+    public void SetControls(int control)
+    {
+        inputKeyboard = (InputKeyboard) control;
+    }
 }

@@ -18,14 +18,16 @@ public static class Config
 
     // Game Constants
     public const float GAME_DURATION = 60f;
+    public const float MAX_GAME_DURATION = 600f;
     public const float MIN_ROLE_TIME = 10f;
     public const float MAX_ROLE_TIME = 18f;
     
+    
     // Tags
-	public const string TAG_DOG = "Dog";
-	public const string TAG_SHEEP = "Sheep";
-	public const string TAG_GHOST = "Ghost";
-	public const string TAG_BORDER = "Border";
+    public const string TAG_DOG = "Dog";
+    public const string TAG_SHEEP = "Sheep";
+    public const string TAG_GHOST = "Ghost";
+    public const string TAG_BORDER = "Border";
 
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
@@ -41,8 +43,8 @@ public static class Config
 
     /* Scaling between the real map and the virtual one; 
     The default is that 10 units in unity = min(x dimension of real map, y dimension of real map) */
-    public static int REAL_MAP_DIMENSION_X = 297 ; // in mm 
-    public static int REAL_MAP_DIMENSION_Y = 420; // in mm 
+    public static int REAL_MAP_DIMENSION_X = 841 ; // in mm 
+    public static int REAL_MAP_DIMENSION_Y = 1189; // in mm 
 
     public static float CELLULO_SCALE = 1000.0f/ Mathf.Min(REAL_MAP_DIMENSION_X,REAL_MAP_DIMENSION_Y);
 
