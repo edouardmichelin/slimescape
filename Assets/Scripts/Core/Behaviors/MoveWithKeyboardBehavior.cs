@@ -9,27 +9,16 @@ public enum InputKeyboard
     wasd = 1,
 }
 
-public enum Colors
-{
-    Blue = 0,
-    Pink = 1,
-    Yellow = 2
-}
-
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public InputKeyboard inputKeyboard;
-    public Colors color;
+    public Player.Colors color;
     
-    public bool IsGemOwner
-    {
-        get;
-        set;
-    }
+    public bool IsGemOwner { get; set; }
 
     void Start()
     {
-        GameManager.Instance.RegisterPlayer(this);
+        GameManager.Instance.TryRegisterPlayer(this, inputKeyboard);
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
     }
 
@@ -65,12 +54,13 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         GameManager.Instance.TryUpdateReadyState(this);
     }
     
-    public void SetColor(int color)
+    public void SetColor(int c)
     {
+		color = (Player.Colors)c;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
-            (Colors)color == Colors.Blue ? Color.cyan :
-            (Colors)color == Colors.Pink ? Color.magenta :
-            (Colors)color == Colors.Yellow ? Color.yellow : Color.gray,
+            color == Player.Colors.Blue ? Color.cyan :
+            color == Player.Colors.Pink ? Color.magenta :
+            color == Player.Colors.Yellow ? Color.yellow : Color.gray,
             0);
     }
 
