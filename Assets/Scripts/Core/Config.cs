@@ -15,7 +15,28 @@ public static class Config
     ///////////////////
     //// CONSTANTS ////
     ///////////////////
+    
+    // Game Constants
+    public const float GAME_DURATION = 60f;
+    public const float MAX_GAME_DURATION = 600f;
+    public const float MIN_ROLE_TIME = 10f;
+    public const float MAX_ROLE_TIME = 18f;
 
+    // Tags
+    public const string TAG_DOG = "Dog";
+    public const string TAG_SHEEP = "Sheep";
+    public const string TAG_GHOST = "Ghost";
+    public const string TAG_BORDER = "Border";
+    public const string TAG_START_PROMPT = "StartGamePrompt";
+
+    // Points
+    public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
+    public const int POINTS_FOR_SHEEP_IN_RING = 1;
+    public const int POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER = -2;
+    
+    // Spawn intervals
+    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 25f;
+    
     // Cellulo constant
     public const int CELLULO_KEYS = 6;
     public const float DEFAULT_CONTROL_PERIOD = 0.1f;
@@ -30,8 +51,8 @@ public static class Config
     The default is that 10 units in unity = min(x dimension of real map, y dimension of real map) */
     public static MapOriginPosition ORIGIN = MapOriginPosition.TopLeft;
     public static MapOrientation ORIENTATION = MapOrientation.XisLarger;
-    public static int REAL_MAP_DIMENSION_X = 420 ; // in mm 
-    public static int REAL_MAP_DIMENSION_Y = 270; // in mm 
+    public static int REAL_MAP_DIMENSION_X = 841 ; // in mm 
+    public static int REAL_MAP_DIMENSION_Y = 1189; // in mm 
 
     public static float GetCelluloScale(){
         return 1000.0f/ Mathf.Min(REAL_MAP_DIMENSION_X,REAL_MAP_DIMENSION_Y);
