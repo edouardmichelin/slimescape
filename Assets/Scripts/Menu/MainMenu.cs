@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    #region sound controller
+    
     public float MasterVolume
     {
         set { AudioManager.Instance.MasterVolume = value; }
@@ -31,10 +33,15 @@ public class MainMenu : MonoBehaviour
         set { AudioManager.Instance.GlobalMute = !value; }
     }
 
+    #endregion
+
+    #region scene controller
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+ 1);
     }
+    
     public void QuitGame()
     {
         Debug.Log("Quit!");
@@ -45,6 +52,10 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         GameManager.Instance.StopGame();
     }
+
+    #endregion
+
+    #region game flow controller
 
     public void Resume()
     {
@@ -60,7 +71,11 @@ public class MainMenu : MonoBehaviour
     {
         GameManager.Instance.IsGamePaused = true;
     }
-    
+
+    #endregion
+
+    #region timer settings
+
     public void TryDecrementTimer()
     {
         float timer = GameManager.Instance.Timer;
@@ -86,4 +101,26 @@ public class MainMenu : MonoBehaviour
             GameManager.Instance.TrySetTimer(secondsInt * 60);
         }
     }
+
+    #endregion
+
+    #region difficulty settings
+
+    public void SetDiffcultyEasy()
+    {
+        GameManager.Instance.SetGameDifficulty(Difficulty.Easy);
+    }
+
+    public void SetDiffcultyNormal()
+    {
+        GameManager.Instance.SetGameDifficulty(Difficulty.Normal);
+    }
+
+    public void SetDiffcultyHard()
+    {
+        GameManager.Instance.SetGameDifficulty(Difficulty.Hard);
+    }
+
+    #endregion
+    
 }
