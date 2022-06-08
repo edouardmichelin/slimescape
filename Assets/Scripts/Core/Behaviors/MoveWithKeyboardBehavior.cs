@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 //Input Keys
 public enum InputKeyboard
@@ -26,7 +21,6 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         m_ledsTouchBegin = new bool[Config.CELLULO_KEYS];
         GameManager.Instance.TryRegisterPlayer(this, inputKeyboard);
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
-        
     }
 
     public override Steering GetSteering()
@@ -54,7 +48,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         agent.MoveOnStone();
     }
-
+    
     public override void OnCelluloTouchBegan(int key)
     {
         m_ledsTouchBegin[key] = true;
@@ -82,7 +76,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
                 break;
             
             default:
-                GameManager.Instance.SetGameDifficulty(Difficulty.Hard);
+                GameManager.Instance.SetGameDifficulty(Difficulty.Normal);
                 break;
         }
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
