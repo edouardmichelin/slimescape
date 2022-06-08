@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Input Keys
 public enum InputKeyboard
@@ -9,28 +13,20 @@ public enum InputKeyboard
     wasd = 1,
 }
 
-public enum Colors
-{
-    Blue = 0,
-    Pink = 1,
-    Yellow = 2
-}
-
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public InputKeyboard inputKeyboard;
-    public Colors color;
+    public Player.Colors color;
     
-    public bool IsGemOwner
-    {
-        get;
-        set;
-    }
+    public bool IsGemOwner { get; set; }
+    private bool[] m_ledsTouchBegin;
 
     void Start()
     {
-        GameManager.Instance.RegisterPlayer(this);
+        m_ledsTouchBegin = new bool[Config.CELLULO_KEYS];
+        GameManager.Instance.TryRegisterPlayer(this, inputKeyboard);
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
+        
     }
 
     public override Steering GetSteering()
@@ -59,18 +55,49 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         agent.MoveOnStone();
     }
 
+    public override void OnCelluloTouchBegan(int key)
+    {
+        Debug.Log($"This is player {this.inputKeyboard} and led {key} is pressed");
+        m_ledsTouchBegin[key] = true;
+    }
+
+    public override void OnCelluloTouchReleased(int key)
+    {
+        Debug.Log($"This is player {this.inputKeyboard} and led {key} is released");
+        m_ledsTouchBegin[key] = false;
+    }
+    
     public override void OnCelluloLongTouch(int key)
     {
+        switch (m_ledsTouchBegin.Count(x => x))
+        {
+            case 1:
+                Debug.Log("Easy has been selected");
+                break;
+            
+            case 2:
+                Debug.Log("Medium has been selected");
+                break;
+            
+            case 3:
+                Debug.Log("Hard has been selected");
+                break;
+            
+            default:
+                Debug.Log("Hard has been selected");
+                break;
+        }
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
         GameManager.Instance.TryUpdateReadyState(this);
     }
     
-    public void SetColor(int color)
+    public void SetColor(int c)
     {
+		color = (Player.Colors)c;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
-            (Colors)color == Colors.Blue ? Color.cyan :
-            (Colors)color == Colors.Pink ? Color.magenta :
-            (Colors)color == Colors.Yellow ? Color.yellow : Color.gray,
+            color == Player.Colors.Blue ? Color.cyan :
+            color == Player.Colors.Pink ? Color.magenta :
+            color == Player.Colors.Yellow ? Color.yellow : Color.gray,
             0);
     }
 
