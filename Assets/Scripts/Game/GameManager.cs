@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     #region properties declaration
     
     private Dictionary<GameObject, Player> m_playersStates;
-    private GhostSheepBehavior m_slime;
+    private GhostSheepBehavior m_slime = null;
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
     private bool m_isGamePaused = false;
@@ -116,11 +116,11 @@ public class GameManager : Singleton<GameManager>
         if (m_isGameStarted)
             return;
 
-        ApplyGameDifficulty(m_difficulty);
-
         m_isGameStarted = true;
         
         SpawnManager.Instance.Enable();
+
+        ApplyGameDifficulty(m_difficulty);
     }
 
     public void StopGame()
@@ -189,7 +189,7 @@ public class GameManager : Singleton<GameManager>
 
     public bool TryRegisterSlime(GhostSheepBehavior behavior)
     {
-        if (m_slime)
+        if (m_slime != null)
             return false;
 
         m_slime = behavior;

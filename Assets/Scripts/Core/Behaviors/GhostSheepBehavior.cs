@@ -41,6 +41,8 @@ public class GhostSheepBehavior : AgentBehaviour
         Invoke(nameof(SwitchRole), time);
 
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
+
+        GameManager.Instance.TryRegisterSlime(this);
     }
 
     public override Steering GetSteering()
