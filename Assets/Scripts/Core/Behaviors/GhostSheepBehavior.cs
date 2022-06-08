@@ -13,6 +13,22 @@ public class GhostSheepBehavior : AgentBehaviour
 
     private GameObject[] m_dogs;
     private int m_rotationDirection = 1;
+    private float m_speedCoefficient = Config.SLIME_SPEED_DEFAULT;
+
+    public void SetLowVelocity()
+    {
+        m_speedCoefficient = Config.SLIME_SPEED_SLOW;
+    }
+    
+    public void SetNormalVelocity()
+    {
+        m_speedCoefficient = Config.SLIME_SPEED_DEFAULT;
+    }
+    
+    public void SetHighVelocity()
+    {
+        m_speedCoefficient = Config.SLIME_SPEED_FAST;
+    }
 
     public String soundOnSwitchingToWolf = "wolf";
     public String soundOnSwitchingToSheep = "sheep";
@@ -33,7 +49,7 @@ public class GhostSheepBehavior : AgentBehaviour
 
         if (TryGetAxis(out float horizontal, out float vertical))
         {
-            steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel * 0.85f;
+            steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel * m_speedCoefficient;
             steering.linear = this
                 .transform
                 .parent

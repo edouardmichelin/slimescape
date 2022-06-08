@@ -35,8 +35,14 @@ public static class Config
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER = -2;
     
     // Spawn intervals
-    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 25f;
+    public const float SPAWNER_GEMS_MIN_TIME_INTERVAL = 15f;
+    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 30f;
     
+    // Slime constant
+    public const float SLIME_SPEED_SLOW = 0.8f;
+    public const float SLIME_SPEED_DEFAULT = 0.85f;
+    public const float SLIME_SPEED_FAST = 0.92f;
+
     // Cellulo constant
     public const int CELLULO_KEYS = 6;
     public const float DEFAULT_CONTROL_PERIOD = 0.1f;
