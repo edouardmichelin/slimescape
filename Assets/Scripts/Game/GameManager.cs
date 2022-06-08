@@ -8,11 +8,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    #region properties declaration
+    
     private Dictionary<GameObject, Player> m_playersStates;
+    private GhostSheepBehavior m_slime;
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
     private bool m_isGamePaused = false;
     private GameObject m_gameOverObj;
+    private Difficulty m_difficulty;
 
     public GameObject GameOverMenu
     {
@@ -37,30 +41,7 @@ public class GameManager : Singleton<GameManager>
         set { Time.timeScale = value ? 0f : 1f; }
     }
 
-    public bool TryRegisterPlayer(MoveWithKeyboardBehavior behavior, InputKeyboard id)
-    {
-        if (m_playersStates.ContainsKey(behavior.gameObject))
-            return false;
-        
-        var player = new Player();
-        player.IsReady = false;
-        player.Score = 0;
-        player.Behavior = behavior;
-        player.Id = id;
-
-        m_playersStates.Add(behavior.gameObject, player);
-
-        return true;
-    }
-
-    public bool TryUpdatePlayerColor(MoveWithKeyboardBehavior behavior, Player.Colors color)
-    {
-        if (!m_playersStates.ContainsKey(behavior.gameObject))
-            return false;
-
-        m_playersStates[behavior.gameObject].Color = color;
-        return true;
-    }
+    #endregion
     
     // Initialization
     public void Init()
@@ -92,10 +73,35 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void ApplyGameDifficulty(Difficulty difficulty)
+    {
+        SpawnManager.Instance.SetTimersWithDifficulty(difficulty);
+        switch (difficulty)
+        {
+            case Difficulty.Easy:
+                m_slime.SetLowVelocity();
+                break;
+            case Difficulty.Normal:
+                m_slime.SetNormalVelocity();
+                break;
+            case Difficulty.Hard:
+                m_slime.SetHighVelocity();
+                break;
+            default: break;
+        }
+    }
+
+    public void SetGameDifficulty(Difficulty difficulty)
+    {
+        m_difficulty = difficulty;
+    }
+
     public void StartGame()
     {
         if (m_isGameStarted)
             return;
+
+        ApplyGameDifficulty(m_difficulty);
 
         m_isGameStarted = true;
         
@@ -109,25 +115,6 @@ public class GameManager : Singleton<GameManager>
         SpawnManager.Instance.Disable();
         Timer = Config.GAME_DURATION;
         m_playersStates = new Dictionary<GameObject, Player>();
-    }
-    
-    public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
-    {
-        GameObject[] menus = GameObject.FindGameObjectsWithTag(Config.TAG_START_PROMPT);
-
-        if (!m_playersStates.ContainsKey(player.gameObject) || menus.Length == 0)
-            return false;
-
-        m_playersStates[player.gameObject].IsReady = true;
-        if (m_playersStates.Values.All(a => a.IsReady))
-        {
-            Array.ForEach(menus, f => f.SetActive(true));
-
-            StartGame();
-            IsGamePaused = false;
-        }
-        
-        return true;
     }
 
     private void GameOver()
@@ -166,6 +153,60 @@ public class GameManager : Singleton<GameManager>
 
         m_playersStates[player].Score += points;
 
+        return true;
+    }
+
+    public bool TryRegisterPlayer(MoveWithKeyboardBehavior behavior, InputKeyboard id)
+    {
+        if (m_playersStates.ContainsKey(behavior.gameObject))
+            return false;
+        
+        var player = new Player();
+        player.IsReady = false;
+        player.Score = 0;
+        player.Behavior = behavior;
+        player.Id = id;
+
+        m_playersStates.Add(behavior.gameObject, player);
+
+        return true;
+    }
+
+    public bool TryRegisterSlime(GhostSheepBehavior behavior)
+    {
+        if (m_slime)
+            return false;
+
+        m_slime = behavior;
+
+        return true;
+    }
+
+    public bool TryUpdatePlayerColor(MoveWithKeyboardBehavior behavior, Player.Colors color)
+    {
+        if (!m_playersStates.ContainsKey(behavior.gameObject))
+            return false;
+
+        m_playersStates[behavior.gameObject].Color = color;
+        return true;
+    }
+    
+    public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
+    {
+        GameObject[] menus = GameObject.FindGameObjectsWithTag(Config.TAG_START_PROMPT);
+
+        if (!m_playersStates.ContainsKey(player.gameObject) || menus.Length == 0)
+            return false;
+
+        m_playersStates[player.gameObject].IsReady = true;
+        if (m_playersStates.Values.All(a => a.IsReady))
+        {
+            Array.ForEach(menus, f => f.SetActive(true));
+
+            StartGame();
+            IsGamePaused = false;
+        }
+        
         return true;
     }
     
