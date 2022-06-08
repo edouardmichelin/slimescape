@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 
 //Input Keys
@@ -15,9 +14,11 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public Player.Colors color;
     
     public bool IsGemOwner { get; set; }
+    private bool[] m_ledsTouchBegin;
 
     void Start()
     {
+        m_ledsTouchBegin = new bool[Config.CELLULO_KEYS];
         GameManager.Instance.TryRegisterPlayer(this, inputKeyboard);
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
     }
@@ -47,9 +48,37 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         agent.MoveOnStone();
     }
+    
+    public override void OnCelluloTouchBegan(int key)
+    {
+        m_ledsTouchBegin[key] = true;
+    }
 
+    public override void OnCelluloTouchReleased(int key)
+    {
+        m_ledsTouchBegin[key] = false;
+    }
+    
     public override void OnCelluloLongTouch(int key)
     {
+        switch (m_ledsTouchBegin.Count(x => x))
+        {
+            case 1:
+                GameManager.Instance.SetGameDifficulty(Difficulty.Easy);
+                break;
+            
+            case 2:
+                GameManager.Instance.SetGameDifficulty(Difficulty.Normal);
+                break;
+            
+            case 3:
+                GameManager.Instance.SetGameDifficulty(Difficulty.Hard);
+                break;
+            
+            default:
+                GameManager.Instance.SetGameDifficulty(Difficulty.Normal);
+                break;
+        }
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
         GameManager.Instance.TryUpdateReadyState(this);
     }
