@@ -53,6 +53,16 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
         GameManager.Instance.TryUpdateReadyState(this);
     }
+
+    public override void OnCelluloKidnapped()
+    {
+        GameManager.Instance.PlayerKidnapped();
+    }
+
+    public override void OnCelluloUnKidnapped()
+    {
+        GameManager.Instance.PlayerUnkidnapped();
+    }
     
     public void SetColor(int c)
     {
