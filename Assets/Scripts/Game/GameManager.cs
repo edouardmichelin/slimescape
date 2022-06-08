@@ -116,11 +116,11 @@ public class GameManager : Singleton<GameManager>
         if (m_isGameStarted)
             return;
 
-        ApplyGameDifficulty(m_difficulty);
-
         m_isGameStarted = true;
         
         SpawnManager.Instance.Enable();
+
+        ApplyGameDifficulty(m_difficulty);
     }
 
     public void StopGame()
