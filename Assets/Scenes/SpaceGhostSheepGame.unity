@@ -2676,7 +2676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428174, guid: 189604e1ec3623840b4a19becaccb8aa, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 428174, guid: 189604e1ec3623840b4a19becaccb8aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7158,6 +7158,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1857492099}
     m_Modifications:
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[0]
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[2]
+      value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[3]
+      value: 122
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[4]
+      value: 117
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[5]
+      value: 105
+      objectReference: {fileID: 0}
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_Name
       value: CelluloAgent (1)
@@ -7246,6 +7266,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  priority: 1
+  enableRaycast: 0
+  distanceRaycast: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &1330674292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7259,6 +7285,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  priority: 1
+  enableRaycast: 0
+  distanceRaycast: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
   inputKeyboard: 0
   color: 0
 --- !u!4 &1331921599 stripped
@@ -9952,6 +9984,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2916047611232586596, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.189
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916047611232586596, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.189
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916047611232586596, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.189
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916047611232586596, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.8
       objectReference: {fileID: 0}
@@ -9961,6 +10005,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
       propertyPath: isMoved
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[2]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[3]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[4]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657785916395057768, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
+      propertyPath: simulatedTouch.Array.data[5]
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4052793752220753789, guid: 6f5f6d7624c2ce5cc8896e584e30f1c5, type: 3}
@@ -10248,6 +10316,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  priority: 1
+  enableRaycast: 0
+  distanceRaycast: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
   soundOnSwitchingToWolf: wolf
   soundOnSwitchingToSheep: sheep
 --- !u!1 &1868940459
@@ -11702,6 +11776,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1857492099}
     m_Modifications:
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[0]
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[1]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[2]
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[3]
+      value: 52
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[4]
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[5]
+      value: 54
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: simulatedTouch.Array.data[6]
+      value: 104
+      objectReference: {fileID: 0}
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_Name
       value: CelluloAgent (2)
@@ -11790,6 +11896,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  priority: 1
+  enableRaycast: 0
+  distanceRaycast: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &2113410126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11803,6 +11915,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
+  priority: 1
+  enableRaycast: 0
+  distanceRaycast: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
   inputKeyboard: 1
   color: 0
 --- !u!1 &2116047628
