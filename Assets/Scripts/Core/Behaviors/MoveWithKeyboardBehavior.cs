@@ -57,13 +57,11 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public override void OnCelluloTouchBegan(int key)
     {
-        Debug.Log($"This is player {this.inputKeyboard} and led {key} is pressed");
         m_ledsTouchBegin[key] = true;
     }
 
     public override void OnCelluloTouchReleased(int key)
     {
-        Debug.Log($"This is player {this.inputKeyboard} and led {key} is released");
         m_ledsTouchBegin[key] = false;
     }
     
@@ -72,19 +70,19 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         switch (m_ledsTouchBegin.Count(x => x))
         {
             case 1:
-                Debug.Log("Easy has been selected");
+                GameManager.Instance.SetGameDifficulty(Difficulty.Easy);
                 break;
             
             case 2:
-                Debug.Log("Medium has been selected");
+                GameManager.Instance.SetGameDifficulty(Difficulty.Normal);
                 break;
             
             case 3:
-                Debug.Log("Hard has been selected");
+                GameManager.Instance.SetGameDifficulty(Difficulty.Hard);
                 break;
             
             default:
-                Debug.Log("Hard has been selected");
+                GameManager.Instance.SetGameDifficulty(Difficulty.Hard);
                 break;
         }
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
