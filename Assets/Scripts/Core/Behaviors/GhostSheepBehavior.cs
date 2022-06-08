@@ -59,6 +59,11 @@ public class GhostSheepBehavior : AgentBehaviour
         return steering;
     }
 
+    public override void OnCelluloKidnapped()
+    {
+        GameManager.Instance.SlimeKidnapped();
+    }
+
     void OnCollisionEnter(Collision collisionInfo)
     {
         GameObject collider = collisionInfo.collider.transform.parent.gameObject;

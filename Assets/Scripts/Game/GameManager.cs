@@ -73,6 +73,21 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void SlimeKidnapped()
+    {
+        GameOver();
+    }
+
+    public void PlayerKidnapped()
+    {
+        IsGamePaused = true;
+    }
+
+    public void PlayerUnkidnapped()
+    {
+        IsGamePaused = false;
+    }
+
     private void ApplyGameDifficulty(Difficulty difficulty)
     {
         SpawnManager.Instance.SetTimersWithDifficulty(difficulty);
