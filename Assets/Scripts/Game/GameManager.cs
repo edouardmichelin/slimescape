@@ -108,10 +108,11 @@ public class GameManager : Singleton<GameManager>
 
     public void StopGame()
     {
-        Timer = Config.GAME_DURATION;
-        SpawnManager.Instance.Disable();
         IsGamePaused = true;
-        m_isGameStarted = false;
+        HasGameStarted = false;
+        SpawnManager.Instance.Disable();
+        Timer = Config.GAME_DURATION;
+        m_playersStates = new Dictionary<GameObject, Player>();
     }
     
     public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
