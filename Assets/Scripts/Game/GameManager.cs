@@ -8,11 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    private Dictionary<InputKeyboard, int> m_scoreBoard;
-    private Dictionary<InputKeyboard, bool> m_readyStates;
-    private Dictionary<InputKeyboard, MoveWithKeyboardBehavior> m_playerBehaviors;
     private Dictionary<GameObject, Player> m_playersStates;
-    private List<CelluloAgent> m_sleeping;
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
     private bool m_isGamePaused = false;
@@ -204,15 +200,15 @@ public class GameManager : Singleton<GameManager>
 
     public bool TrySetNewGemOwner(GameObject owner)
     {
-        if (!TryGetPlayerIdFromGameObject(owner, out InputKeyboard playerId))
-            return false;
-
-        if (!m_scoreBoard.ContainsKey(playerId))
+        if (!m_playersStates.ContainsKey(owner))
             return false;
         
-        foreach (MoveWithKeyboardBehavior player in m_playerBehaviors.Values)
+        if (!TryGetPlayerIdFromGameObject(owner, out InputKeyboard ownerId))
+            return false;
+        
+        foreach (MoveWithKeyboardBehavior player in m_playersStates.Values.Select(s => s.Behavior))
         {
-            player.IsGemOwner = player.inputKeyboard == playerId;
+            player.IsGemOwner = player.inputKeyboard == ownerId;
         }
 
         return true;
