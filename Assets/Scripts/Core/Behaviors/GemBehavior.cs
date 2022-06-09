@@ -16,7 +16,14 @@ public class GemBehavior : AgentBehaviour
         
         if (collider.CompareTag(Config.TAG_DOG))
         {
+            /*
             if (GameManager.Instance.TrySetNewGemOwner(collider))
+            {
+                AudioManager.Instance.PlaySoundEffect("gemTake");
+                Destroy(gameObject);
+            }
+            */
+            if (GameManager.Instance.TryTeleportPlayer(collider))
             {
                 AudioManager.Instance.PlaySoundEffect("gemTake");
                 Destroy(gameObject);

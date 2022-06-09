@@ -309,6 +309,18 @@ public class GameManager : Singleton<GameManager>
             return true;
         }
     }
+    
+    public bool TryTeleportPlayer(GameObject player)
+    {
+        if (!m_playersStates.ContainsKey(player))
+            return false;
+        
+        Player otherPlayer = m_playersStates.Values.Where(
+            w => w.Id != player.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard).FirstOrDefault();
+        player.GetComponent<MoveWithKeyboardBehavior>().TeleportTo(otherPlayer.Behavior);
+        
+        return true;
+    }
 
     public bool TrySetNewGemOwner(GameObject owner)
     {

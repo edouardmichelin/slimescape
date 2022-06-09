@@ -36,6 +36,21 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         
         return steering;
     }
+
+    public void TeleportTo(MoveWithKeyboardBehavior otherPlayer)
+    {
+        (agent, otherPlayer.agent) = (otherPlayer.agent, agent);
+        if (inputKeyboard == InputKeyboard.wasd)
+        {
+            inputKeyboard = InputKeyboard.arrows;
+            otherPlayer.inputKeyboard = InputKeyboard.wasd;
+        }
+        else
+        {
+            inputKeyboard = InputKeyboard.wasd;
+            otherPlayer.inputKeyboard = InputKeyboard.arrows;
+        }
+    }
     
     // clears remaining haptic effects and enables BackdriveAssist
     public void MoveNormally()
