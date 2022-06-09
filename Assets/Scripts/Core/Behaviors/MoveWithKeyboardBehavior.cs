@@ -19,6 +19,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     void Start()
     {
         m_ledsTouchBegin = new bool[Config.CELLULO_KEYS];
+        
         GameManager.Instance.TryRegisterPlayer(this, inputKeyboard);
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
     }
@@ -48,7 +49,39 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         agent.MoveOnStone();
     }
-    
+
+    public void GoToStartPosition()
+    {
+        if (inputKeyboard == InputKeyboard.wasd)
+        {
+            agent.SetGoalPose(
+                Config.PLAYER1_STARTPOS_X, 
+                Config.PLAYER1_STARTPOS_Y, 
+                Config.PLAYER1_STARTPOS_THETA, 
+                3, 
+                3);
+        }
+        else
+        {
+            agent.SetGoalPose(
+                Config.PLAYER2_STARTPOS_X, 
+                Config.PLAYER2_STARTPOS_Y, 
+                Config.PLAYER2_STARTPOS_THETA, 
+                3, 
+                3);
+        }
+    }
+
+    public override void OnGoalPoseReached()
+    {
+        if (!GameManager.Instance.HasGameStarted) GoToStartPosition();
+    }
+
+    public override void OnCelluloConnect()
+    {
+        GoToStartPosition();
+    }
+
     public override void OnCelluloTouchBegan(int key)
     {
         m_ledsTouchBegin[key] = true;

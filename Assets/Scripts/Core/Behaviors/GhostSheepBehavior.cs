@@ -60,6 +60,26 @@ public class GhostSheepBehavior : AgentBehaviour
 
         return steering;
     }
+    
+    public void GoToStartPosition()
+    {
+        agent.SetGoalPose(
+            Config.SLIME_STARTPOS_X, 
+            Config.SLIME_STARTPOS_Y, 
+            Config.SLIME_STARTPOS_THETA, 
+            3, 
+            3);
+    }
+    
+    public override void OnGoalPoseReached()
+    {
+        if (!GameManager.Instance.HasGameStarted) GoToStartPosition();
+    }
+    
+    public override void OnCelluloConnect()
+    {
+        GoToStartPosition();
+    }
 
     public override void OnCelluloKidnapped()
     {
