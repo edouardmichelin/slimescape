@@ -30,6 +30,12 @@ public class GhostSheepBehavior : AgentBehaviour
         m_speedCoefficient = Config.SLIME_SPEED_FAST;
     }
 
+	public void SuddenDeathMode()
+	{
+		CancelInvoke();
+		SwitchToAngry();
+	}
+
     public String soundOnSwitchingToWolf = "wolf";
     public String soundOnSwitchingToSheep = "sheep";
 
@@ -105,22 +111,30 @@ public class GhostSheepBehavior : AgentBehaviour
         }
     }
 
+	private void SwitchToNice()
+	{
+        gameObject.tag = ATTACKING_TAG;
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
+        AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
+	}
+
+	private void SwitchToAngry()
+	{
+        gameObject.tag = FLEEING_TAG;
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
+        AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
+	}
+
     private void SwitchRole()
     {
         CancelInvoke();
         if (IsFleeing())
         {
-            gameObject.tag = ATTACKING_TAG;
-            agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
-            AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
-            GameManager.Instance.AllMoveOnStone();
+			SwitchToNice();
         }
         else
         {
-            gameObject.tag = FLEEING_TAG;
-            agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
-            AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
-            GameManager.Instance.AllMoveNormally();
+            SwitchToAngry();
         }
 
         float time = UnityEngine.Random.Range(Config.MIN_ROLE_TIME, Config.MAX_ROLE_TIME);
