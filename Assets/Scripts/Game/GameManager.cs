@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
     private bool m_isGamePaused = false;
+    private bool m_isSuddenDeathPhase = false;
     private GameObject m_gameOverObj;
     private Difficulty m_difficulty;
 
@@ -62,14 +63,17 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        if (!IsGamePaused)
+        if (!m_isSuddenDeathPhase)
         {
-            Timer -= Time.deltaTime;
-        }
+            if (!IsGamePaused)
+            {
+                Timer -= Time.deltaTime;
+            }
         
-        if (Timer <= 0f)
-        {
-            GameOver();
+            if (Timer <= 0f)
+            {
+                GameOver();
+            }
         }
     }
 
@@ -137,6 +141,7 @@ public class GameManager : Singleton<GameManager>
     {
         IsGamePaused = true;
         HasGameStarted = false;
+        m_isSuddenDeathPhase = false;
         SpawnManager.Instance.Disable();
         Timer = Config.GAME_DURATION;
         m_playersStates = new Dictionary<GameObject, Player>();
@@ -146,14 +151,52 @@ public class GameManager : Singleton<GameManager>
     {
         AudioManager.Instance.PlayGlobalEffect("gameOver");
 
-        StopGame();
-
-        if (m_gameOverObj != null)
+        if (PlayersAreTied())
         {
-            m_gameOverObj.SetActive(true);
-            m_gameOverObj = null;
+            SuddenDeahtPhase();
+        }
+        else
+        {
+            StopGame();
+
+            if (m_gameOverObj != null)
+            {
+                m_gameOverObj.SetActive(true);
+                m_gameOverObj = null;
+            }
         }
 
+    }
+
+    private bool PlayersAreTied()
+    {
+        Player p = m_playersStates.FirstOrDefault().Value;
+        if (p == null)
+            return false;
+
+        int score = p.Score;
+
+        return m_playersStates.Values.All(p => p.Score == score);
+    }
+
+    private void ResetScores()
+    {
+        foreach (Player player in m_playersStates.Values)
+        {
+            player.Score = 0;
+        }
+    }
+
+    private void SuddenDeahtPhase()
+    {
+        IsGamePaused = true;
+        m_isSuddenDeathPhase = true;
+        Timer = 0f;
+        ResetScores();
+        AllMoveOnStone();
+        m_slime.SuddenDeathMode();
+        ApplyGameDifficulty(Difficulty.Hard);
+        IsGamePaused = false;
     }
 
     public bool TryGetScoreOf(InputKeyboard playerId, out int score)
@@ -177,6 +220,9 @@ public class GameManager : Singleton<GameManager>
             return false;
 
         m_playersStates[player].Score += points;
+
+        if (m_isSuddenDeathPhase)
+            GameOver();
 
         return true;
     }
