@@ -118,7 +118,7 @@ public class CelluloAgent : SteeringAgent
     {
         if (isConnected) _celluloRobot.Shutdown();
     }
-
+    
     /// <summary>
     /// Called when the status is changed, properly set the needed parameters.
     /// </summary>
@@ -126,6 +126,7 @@ public class CelluloAgent : SteeringAgent
     {
         if (_celluloRobot.ConnectionStatus == ConnectionStatus.ConnectionStatusConnected)
         {
+            SendMessage("OnCelluloConnect",SendMessageOptions.DontRequireReceiver);
             isConnected = true; 
             SubscribeToRobotEvents();
             SetVisualEffect(0, initialColor, 0);
