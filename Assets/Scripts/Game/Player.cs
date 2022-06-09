@@ -11,6 +11,8 @@ public class Player
     public InputKeyboard Id { get; set; }
 
     public Player.Colors Color { get; set; }
+    
+    public bool IsKidnapped { get; set; }
 
     public enum Colors
     {
