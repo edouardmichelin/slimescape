@@ -78,14 +78,24 @@ public class GameManager : Singleton<GameManager>
         GameOver();
     }
 
-    public void PlayerKidnapped()
+    public void PlayerKidnapped(GameObject go)
     {
+        if (!m_playersStates.ContainsKey(go))
+            return;
+
+        m_playersStates[go].IsKidnapped = true;
         IsGamePaused = true;
     }
 
-    public void PlayerUnkidnapped()
+    public void PlayerUnkidnapped(GameObject go)
     {
-        IsGamePaused = false;
+        if (!m_playersStates.ContainsKey(go))
+            return;
+
+        m_playersStates[go].IsKidnapped = false;
+        
+        if (m_playersStates.Values.All(p => !p.IsKidnapped))
+            IsGamePaused = false;
     }
 
     private void ApplyGameDifficulty(Difficulty difficulty)
