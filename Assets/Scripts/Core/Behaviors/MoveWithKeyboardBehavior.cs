@@ -118,12 +118,12 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public override void OnCelluloKidnapped()
     {
-        GameManager.Instance.PlayerKidnapped();
+        GameManager.Instance.PlayerKidnapped(gameObject);
     }
 
     public override void OnCelluloUnKidnapped()
     {
-        GameManager.Instance.PlayerUnkidnapped();
+        GameManager.Instance.PlayerUnkidnapped(gameObject);
     }
     
     public void SetColor(int c)
