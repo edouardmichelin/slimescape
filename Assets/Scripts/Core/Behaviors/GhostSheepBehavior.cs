@@ -113,16 +113,16 @@ public class GhostSheepBehavior : AgentBehaviour
 
 	private void SwitchToNice()
 	{
-        gameObject.tag = ATTACKING_TAG;
-        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
-        AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
+        gameObject.tag = FLEEING_TAG;
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
+        AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
 	}
 
 	private void SwitchToAngry()
 	{
-        gameObject.tag = FLEEING_TAG;
-        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
-        AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
+        gameObject.tag = ATTACKING_TAG;
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
+        AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
 	}
 
     private void SwitchRole()
@@ -130,11 +130,11 @@ public class GhostSheepBehavior : AgentBehaviour
         CancelInvoke();
         if (IsFleeing())
         {
-			SwitchToNice();
+            SwitchToAngry();
         }
         else
         {
-            SwitchToAngry();
+			SwitchToNice();
         }
 
         float time = UnityEngine.Random.Range(Config.MIN_ROLE_TIME, Config.MAX_ROLE_TIME);
