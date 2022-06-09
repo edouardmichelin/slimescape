@@ -28,6 +28,19 @@ public static class Config
     public const string TAG_GHOST = "Ghost";
     public const string TAG_BORDER = "Border";
     public const string TAG_START_PROMPT = "StartGamePrompt";
+    
+    //Starting positions
+    public const float PLAYER1_STARTPOS_X = 2.5f;
+    public const float PLAYER1_STARTPOS_Y = -3.37f;
+    public const float PLAYER1_STARTPOS_THETA = 0f;
+    
+    public const float PLAYER2_STARTPOS_X = 2.5f;
+    public const float PLAYER2_STARTPOS_Y = -7.02f;
+    public const float PLAYER2_STARTPOS_THETA = 0f;
+    
+    public const float SLIME_STARTPOS_X = 8.8f;
+    public const float SLIME_STARTPOS_Y = -5.08f;
+    public const float SLIME_STARTPOS_THETA = 0f;
 
     // Points
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GHOST = -1;
