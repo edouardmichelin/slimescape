@@ -69,6 +69,7 @@ public class GhostSheepBehavior : AgentBehaviour
     
     public void GoToStartPosition()
     {
+        Debug.Log("Slime moving to start position");
         agent.SetGoalPose(
             Config.SLIME_STARTPOS_X, 
             Config.SLIME_STARTPOS_Y, 

@@ -92,6 +92,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public void GoToStartPosition()
     {
+        Debug.Log("Player going to start position");
         if (id == PlayerId.Player_1)
         {
             agent.SetGoalPose(
