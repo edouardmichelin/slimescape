@@ -17,7 +17,7 @@ public static class Config
     ///////////////////
     
     // Game Constants
-    public const float GAME_DURATION = 60f;
+    public const float GAME_DURATION = 30f;
     public const float MAX_GAME_DURATION = 600f;
     public const float MIN_ROLE_TIME = 10f;
     public const float MAX_ROLE_TIME = 18f;
@@ -48,8 +48,9 @@ public static class Config
     public const int POINTS_FOR_PLAYER_CAUGHT_BY_GEM_OWNER = -2;
     
     // Spawn intervals
-    public const float SPAWNER_GEMS_MIN_TIME_INTERVAL = 15f;
-    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 30f;
+    public const float SPAWNER_GEMS_MIN_TIME_INTERVAL = 10f;
+    public const float SPAWNER_GEMS_MAX_TIME_INTERVAL = 15f;
+    public const float SPAWNER_GEMS_DIFFUCULTY_DELTA_TIME_INTERVAL = 5f;
     
     // Slime constant
     public const float SLIME_SPEED_SLOW = 0.8f;

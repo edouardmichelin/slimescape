@@ -7,7 +7,7 @@ using TMPro;
 public class WinnerAnnouncer : MonoBehaviour
 {
     private TextMeshProUGUI text;
-    public GameObject player1, player2;
+    public PlayerId player1, player2;
     
     void Start()
     {
@@ -18,13 +18,9 @@ public class WinnerAnnouncer : MonoBehaviour
 
     public void DisplayWinner()
     {
-        GameManager.Instance.TryGetScoreOf(
-            player1.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard,
-            out int score1);
+        bool x = GameManager.Instance.TryGetScoreOf(player1, out int score1);
 
-        GameManager.Instance.TryGetScoreOf(
-            player2.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard,
-            out int score2);
+        bool y = GameManager.Instance.TryGetScoreOf(player2, out int score2);
         
         if (score1 > score2)
         {

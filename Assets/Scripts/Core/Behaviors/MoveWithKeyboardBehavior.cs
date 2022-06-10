@@ -8,8 +8,16 @@ public enum InputKeyboard
     wasd = 1,
 }
 
+// Ids
+public enum PlayerId
+{
+    Player_1 = 1,
+    Player_2 = 2,
+}
+
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
+    public PlayerId id; 
     public InputKeyboard inputKeyboard;
     public Player.Colors color;
     
@@ -20,8 +28,8 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         m_ledsTouchBegin = new bool[Config.CELLULO_KEYS];
         
-        GameManager.Instance.TryRegisterPlayer(this, inputKeyboard);
-        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, inputKeyboard == InputKeyboard.arrows ? Color.cyan : Color.magenta,  0);
+        GameManager.Instance.TryRegisterPlayer(this, id, inputKeyboard);
+        SetColor(inputKeyboard == InputKeyboard.arrows ? Player.Colors.Blue : Player.Colors.Pink);
     }
 
     public override Steering GetSteering()
@@ -35,6 +43,38 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
         
         return steering;
+    }
+
+    public void TeleportTo(MoveWithKeyboardBehavior otherPlayer)
+    {
+        // swap colors
+        (otherPlayer.color, color) = (color, otherPlayer.color);
+        /*otherPlayer.SetColor(color);
+        SetColor(otherColor);*/
+
+        // swap ids
+        if (id == PlayerId.Player_1)
+        {
+            id = PlayerId.Player_2;
+            otherPlayer.id = PlayerId.Player_1;
+        }
+        else
+        {
+            id = PlayerId.Player_1;
+            otherPlayer.id = PlayerId.Player_2;
+        }
+        
+        // swap controls
+        if (inputKeyboard == InputKeyboard.wasd)
+        {
+            inputKeyboard = InputKeyboard.arrows;
+            otherPlayer.inputKeyboard = InputKeyboard.wasd;
+        }
+        else
+        {
+            inputKeyboard = InputKeyboard.wasd;
+            otherPlayer.inputKeyboard = InputKeyboard.arrows;
+        }
     }
     
     // clears remaining haptic effects and enables BackdriveAssist
@@ -52,7 +92,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public void GoToStartPosition()
     {
-        if (inputKeyboard == InputKeyboard.wasd)
+        if (id == PlayerId.Player_1)
         {
             agent.SetGoalPose(
                 Config.PLAYER1_STARTPOS_X, 
@@ -113,22 +153,33 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
                 break;
         }
         Debug.Log($"This is player {this.inputKeyboard} and you long touched led {key}");
-        GameManager.Instance.TryUpdateReadyState(this);
+        GameManager.Instance.TryUpdateReadyState(id);
     }
 
     public override void OnCelluloKidnapped()
     {
-        GameManager.Instance.PlayerKidnapped(gameObject);
+        GameManager.Instance.PlayerKidnapped(id);
     }
 
     public override void OnCelluloUnKidnapped()
     {
-        GameManager.Instance.PlayerUnkidnapped(gameObject);
+        GameManager.Instance.PlayerUnkidnapped(id);
     }
     
     public void SetColor(int c)
     {
-		color = (Player.Colors)c;
+        color = (Player.Colors) c;
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
+            color == Player.Colors.Blue ? Color.cyan :
+            color == Player.Colors.Pink ? Color.magenta :
+            color == Player.Colors.Yellow ? Color.yellow : Color.gray,
+            0);
+    }
+    
+    public void SetColor(Player.Colors c)
+    {
+        color = c;
+        GameManager.Instance.TryUpdatePlayerColor(id, color);
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
             color == Player.Colors.Blue ? Color.cyan :
             color == Player.Colors.Pink ? Color.magenta :

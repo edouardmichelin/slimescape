@@ -6,7 +6,7 @@ using TMPro;
 
 public class Score : MonoBehaviour
 {
-    public InputKeyboard playerId;
+    public PlayerId playerId;
     
     private TextMeshProUGUI timerText;
 
