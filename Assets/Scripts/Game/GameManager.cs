@@ -147,7 +147,7 @@ public class GameManager : Singleton<GameManager>
         SpawnManager.Instance.Enable();
         
         GlobalAnnouncer.Instance.Init();
-        GlobalAnnouncer.Instance.Say("coucou");
+        GlobalAnnouncer.Instance.Say("Let's go!");
 
         ApplyGameDifficulty(m_difficulty);
     }
