@@ -8,7 +8,9 @@ public class Player
     
     public MoveWithKeyboardBehavior Behavior { get; set; }
 
-    public InputKeyboard Id { get; set; }
+    public PlayerId Id { get; set; }
+    
+    public InputKeyboard Controls { get; set; }
 
     public Player.Colors Color { get; set; }
     
