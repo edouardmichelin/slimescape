@@ -79,11 +79,17 @@ public class GameManager : Singleton<GameManager>
 
     public void SlimeKidnapped()
     {
+        if (!HasGameStarted)
+            return;
+        
         GameOver();
     }
 
     public void PlayerKidnapped(PlayerId playerId)
     {
+        if (!HasGameStarted)
+            return;
+        
         if (!m_playersStates.ContainsKey(playerId))
             return;
 
@@ -93,6 +99,9 @@ public class GameManager : Singleton<GameManager>
 
     public void PlayerUnkidnapped(PlayerId playerId)
     {
+        if (!HasGameStarted)
+            return;
+        
         if (!m_playersStates.ContainsKey(playerId))
             return;
 
