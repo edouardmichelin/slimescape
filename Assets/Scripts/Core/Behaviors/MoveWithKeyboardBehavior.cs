@@ -114,7 +114,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public override void OnGoalPoseReached()
     {
-        if (!GameManager.Instance.HasGameStarted) GoToStartPosition();
+        Debug.Log("Player reached his starting position");
     }
 
     public override void OnCelluloConnect()

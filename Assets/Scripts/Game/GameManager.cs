@@ -113,6 +113,7 @@ public class GameManager : Singleton<GameManager>
 
     private void ApplyGameDifficulty(Difficulty difficulty)
     {
+        Debug.Log($"Launching game in {difficulty}");
         SpawnManager.Instance.SetTimersWithDifficulty(difficulty);
         switch (difficulty)
         {
