@@ -6020,6 +6020,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flask (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 124438, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136342, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 416912, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -9934,6 +9942,14 @@ PrefabInstance:
     - target: {fileID: 124438, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
       propertyPath: m_Name
       value: Flask
+      objectReference: {fileID: 0}
+    - target: {fileID: 124438, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136342, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 416912, guid: 789e4f4c8255f4f5ba6a4dcfe53fb16b, type: 3}
       propertyPath: m_RootOrder
