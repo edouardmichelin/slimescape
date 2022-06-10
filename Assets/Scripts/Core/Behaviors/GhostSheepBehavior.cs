@@ -55,6 +55,9 @@ public class GhostSheepBehavior : AgentBehaviour
     {
         Steering steering = new Steering();
 
+        if (GameManager.Instance.IsGamePaused)
+            return steering;
+
         if (TryGetAxis(out float horizontal, out float vertical))
         {
             steering.linear = new Vector3(horizontal, 0, vertical) * agent.maxAccel * m_speedCoefficient;
@@ -69,6 +72,7 @@ public class GhostSheepBehavior : AgentBehaviour
     
     public void GoToStartPosition()
     {
+        Debug.Log("Slime moving to start position");
         agent.SetGoalPose(
             Config.SLIME_STARTPOS_X, 
             Config.SLIME_STARTPOS_Y, 
@@ -95,6 +99,8 @@ public class GhostSheepBehavior : AgentBehaviour
     
     public override void OnCelluloConnect()
     {
+        agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
+        agent.ClearTracking();
         GoToStartPosition();
     }
 

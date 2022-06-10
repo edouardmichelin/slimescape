@@ -212,6 +212,7 @@ public class CelluloAgent : SteeringAgent
     while (true) { 
         if(isConnected && _celluloRobot!=null && trackingGoalPose)
         {
+            Debug.Log($"goalPose : {goalPose}, localPosition: {transform.localPosition}");
             if(Math.Abs(goalPose.x - transform.localPosition.x)< Config.goalPoseThreshold
             && Math.Abs(goalPose.y - transform.localPosition.z)< Config.goalPoseThreshold
             && (!trackTheta || Math.Abs(goalPose.z - transform.localRotation.y)< Config.goalRotationThreshold))

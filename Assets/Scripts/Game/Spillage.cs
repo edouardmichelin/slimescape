@@ -31,7 +31,7 @@ public class Spillage : MonoBehaviour
             if (b == null)
                 return;
 
-            b.MoveOnStone();
+            b.MoveNormally();
         }
     }
 }

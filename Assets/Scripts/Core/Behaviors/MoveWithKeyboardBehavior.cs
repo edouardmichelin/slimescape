@@ -92,6 +92,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public void GoToStartPosition()
     {
+        Debug.Log("Player going to start position");
         if (id == PlayerId.Player_1)
         {
             agent.SetGoalPose(
@@ -119,6 +120,8 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public override void OnCelluloConnect()
     {
+        SetColor(color);
+        agent.ClearTracking();
         GoToStartPosition();
     }
 
@@ -180,6 +183,35 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         color = c;
         GameManager.Instance.TryUpdatePlayerColor(id, color);
+        Blink(10, 2);
+    }
+
+    public void OnLosePoints()
+    {
+        Blink(10, 2);
+    }
+    
+    public void OnWinPoints()
+    {
+        Blink(20, 1);
+    }
+    
+    //val*20 = miliseconds
+    //stop blinking after timeout
+    private void Blink(int val, float timeout)
+    {
+        agent.SetVisualEffect(VisualEffect.VisualEffectBlink,
+            color == Player.Colors.Blue ? Color.cyan :
+            color == Player.Colors.Pink ? Color.magenta :
+            color == Player.Colors.Yellow ? Color.yellow : Color.gray,
+            val);
+        
+        Invoke(nameof(UnBlink), timeout);
+    }
+
+    private void UnBlink()
+    {
+        Debug.Log("Unblink");
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll,
             color == Player.Colors.Blue ? Color.cyan :
             color == Player.Colors.Pink ? Color.magenta :
