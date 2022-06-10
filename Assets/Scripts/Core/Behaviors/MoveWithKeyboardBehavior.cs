@@ -48,9 +48,9 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public void TeleportTo(MoveWithKeyboardBehavior otherPlayer)
     {
         // swap colors
-        (otherPlayer.color, color) = (color, otherPlayer.color);
-        /*otherPlayer.SetColor(color);
-        SetColor(otherColor);*/
+        Player.Colors otherColor = otherPlayer.color;
+        otherPlayer.SetColor(color);
+        SetColor(otherColor);
 
         // swap ids
         if (id == PlayerId.Player_1)
