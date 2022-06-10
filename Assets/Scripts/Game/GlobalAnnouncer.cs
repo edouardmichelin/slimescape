@@ -8,7 +8,8 @@ public class GlobalAnnouncer : Singleton<GlobalAnnouncer>
 {
     private GameObject container;
     private TextMeshProUGUI textComponent;
-    
+    private float m_displayDuration = 1f;
+
     public void Init()
     {
         HideMessage();
@@ -17,12 +18,15 @@ public class GlobalAnnouncer : Singleton<GlobalAnnouncer>
     public void RegisterContainer(GameObject go)
     {
         container = go;
+        if (AllLoaded())
+            HideMessage();
     }
 
     public void RegisterTextComponent(GameObject go)
     {
         textComponent = go.GetComponent<TextMeshProUGUI>();
-        Say("Choisissez votre couleur et vos contrôles");
+        if (AllLoaded())
+            HideMessage();
     }
 
     public void Say(string message)
@@ -31,11 +35,16 @@ public class GlobalAnnouncer : Singleton<GlobalAnnouncer>
         DisplayMessage();
     }
 
+    private bool AllLoaded()
+    {
+        return container != null && textComponent != null;
+    }
+
     private void DisplayMessage()
     {
         CancelInvoke();
         container.SetActive(true);
-        Invoke(nameof(HideMessage), 5f);
+        Invoke(nameof(HideMessage), m_displayDuration);
     }
 
     private void HideMessage()
