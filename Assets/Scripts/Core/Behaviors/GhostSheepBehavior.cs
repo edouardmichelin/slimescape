@@ -76,7 +76,18 @@ public class GhostSheepBehavior : AgentBehaviour
             3, 
             3);
     }
+
+    protected override void OnObstacleInFront(float distance, int layer)
+    {
+        Debug.Log($"Obstacle! Distance from obstacle : {distance} on layer {layer}");
+        agent.LockMovement();
+    }
     
+    protected override void NoObstacleInFront()
+    {
+        agent.UnlockMovement();
+    }
+
     public override void OnGoalPoseReached()
     {
         Debug.Log("Slime reached starting position");
