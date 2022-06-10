@@ -79,7 +79,7 @@ public class GhostSheepBehavior : AgentBehaviour
     
     public override void OnGoalPoseReached()
     {
-        if (!GameManager.Instance.HasGameStarted) GoToStartPosition();
+        Debug.Log("Slime reached starting position");
     }
     
     public override void OnCelluloConnect()
