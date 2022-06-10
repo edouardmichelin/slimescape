@@ -126,11 +126,11 @@ public class CelluloAgent : SteeringAgent
     {
         if (_celluloRobot.ConnectionStatus == ConnectionStatus.ConnectionStatusConnected)
         {
-            SendMessage("OnCelluloConnect",SendMessageOptions.DontRequireReceiver);
             isConnected = true; 
             SubscribeToRobotEvents();
             SetVisualEffect(0, initialColor, 0);
             StartCoroutine(SendVelocityCommandsToRobot());
+            SendMessage("OnCelluloConnect",SendMessageOptions.DontRequireReceiver);
         }
         else if(_celluloRobot.ConnectionStatus == ConnectionStatus.ConnectionStatusDisconnected)
         {
