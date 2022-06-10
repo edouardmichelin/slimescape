@@ -1412,7 +1412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf6ef62e157e8247bfa1eb750c23493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerId: 0
+  playerId: 2
 --- !u!114 &216354960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7724,7 +7724,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_Name
-      value: CelluloAgent (1)
+      value: Cellullo 2
       objectReference: {fileID: 0}
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_TagString
@@ -7732,7 +7732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalScale.x
@@ -7835,6 +7835,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  id: 2
   inputKeyboard: 0
   color: 0
 --- !u!1 &1351008917
@@ -12324,7 +12325,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_Name
-      value: CelluloAgent (2)
+      value: Cellulo 1
       objectReference: {fileID: 0}
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_TagString
@@ -12332,7 +12333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalScale.x
@@ -12435,6 +12436,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  id: 1
   inputKeyboard: 1
   color: 0
 --- !u!1 &2116047628
@@ -12674,5 +12676,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962ab92c4445bb345abda7a2e355f09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 2113410124}
-  player2: {fileID: 1330674290}
+  player1: 1
+  player2: 2
