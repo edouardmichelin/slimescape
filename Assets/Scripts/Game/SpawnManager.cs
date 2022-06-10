@@ -53,11 +53,12 @@ public class SpawnManager : Singleton<SpawnManager>
 
     private void SpawnGem()
     {
-        if ((m_timer % m_gemSpawnerTimer.Interval) < Time.deltaTime)
+        if (m_timer > m_gemSpawnerTimer.Interval)
         {
             AudioManager.Instance.PlaySoundEffect("gemSpawn");
             Instantiate(gem, GetRandomCoordinates(), Quaternion.identity);
             m_gemSpawnerTimer.Randomize();
+            m_timer = 0f;
         }
     }
 
@@ -73,8 +74,8 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         m_gemSpawnerTimer = new TimerInterval(
             Config.SPAWNER_GEMS_MIN_TIME_INTERVAL,
-            Config.SPAWNER_GEMS_MIN_TIME_INTERVAL,
-            10f);
+            Config.SPAWNER_GEMS_MAX_TIME_INTERVAL,
+            Config.SPAWNER_GEMS_DIFFUCULTY_DELTA_TIME_INTERVAL);
     }
 
     private void SetRandomDeltaTimes()
@@ -86,38 +87,34 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         private float m_defaultMin;
         private float m_defaultMax;
-        private float m_currentMax;
         private float m_delta;
         public float Min { get; private set; }
         public float Max { get; private set; }
-        public float Interval
-        {
-            get { return Max - Min; }
-        }
+        public float Interval { get; private set; }
 
         public void Randomize()
         {
-            Max = Random.Range(Min, m_currentMax);
+            Interval = Random.Range(Min, Max);
         }
 
         public void IncreaseOffset()
         {
             Min = m_defaultMin + m_delta;
-            m_currentMax = m_defaultMax + m_delta;
+            Max = m_defaultMax + m_delta;
             Randomize();
         }
 
         public void DefaultOffset()
         {
             Min = m_defaultMin;
-            m_currentMax = m_defaultMax;
+            Max = m_defaultMax;
             Randomize();
         }
 
         public void DecreaseOffset()
         {
             Min = m_defaultMin - m_delta;
-            m_currentMax = m_defaultMax - m_delta;
+            Max = m_defaultMax - m_delta;
             Randomize();
         }
 
@@ -126,8 +123,7 @@ public class SpawnManager : Singleton<SpawnManager>
             m_defaultMin = min;
             Min = min;
             m_defaultMax = max;
-            m_currentMax = max;
-            max = max;
+            Max = max;
             m_delta = delta;
         }
     }

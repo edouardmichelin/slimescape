@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
 {
     #region properties declaration
     
-    private Dictionary<GameObject, Player> m_playersStates;
+    private Dictionary<PlayerId, Player> m_playersStates;
     private GhostSheepBehavior m_slime = null;
     private bool m_isInitialized = false;
     private bool m_isGameStarted = false;
@@ -49,7 +49,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (m_isInitialized) return;
 
-        m_playersStates = new Dictionary<GameObject, Player>();
+        m_playersStates = new Dictionary<PlayerId, Player>();
         
         AudioManager.Instance.Init();
 
@@ -82,21 +82,21 @@ public class GameManager : Singleton<GameManager>
         GameOver();
     }
 
-    public void PlayerKidnapped(GameObject go)
+    public void PlayerKidnapped(PlayerId playerId)
     {
-        if (!m_playersStates.ContainsKey(go))
+        if (!m_playersStates.ContainsKey(playerId))
             return;
 
-        m_playersStates[go].IsKidnapped = true;
+        m_playersStates[playerId].IsKidnapped = true;
         IsGamePaused = true;
     }
 
-    public void PlayerUnkidnapped(GameObject go)
+    public void PlayerUnkidnapped(PlayerId playerId)
     {
-        if (!m_playersStates.ContainsKey(go))
+        if (!m_playersStates.ContainsKey(playerId))
             return;
 
-        m_playersStates[go].IsKidnapped = false;
+        m_playersStates[playerId].IsKidnapped = false;
         
         if (m_playersStates.Values.All(p => !p.IsKidnapped))
             IsGamePaused = false;
@@ -129,6 +129,8 @@ public class GameManager : Singleton<GameManager>
     {
         if (m_isGameStarted)
             return;
+        
+        ResetScores();
 
         m_isGameStarted = true;
         
@@ -144,7 +146,6 @@ public class GameManager : Singleton<GameManager>
         m_isSuddenDeathPhase = false;
         SpawnManager.Instance.Disable();
         Timer = Config.GAME_DURATION;
-        m_playersStates = new Dictionary<GameObject, Player>();
     }
 
     private void GameOver()
@@ -157,13 +158,13 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            StopGame();
-
             if (m_gameOverObj != null)
             {
                 m_gameOverObj.SetActive(true);
                 m_gameOverObj = null;
             }
+            
+            StopGame();
         }
 
     }
@@ -199,37 +200,41 @@ public class GameManager : Singleton<GameManager>
         IsGamePaused = false;
     }
 
-    public bool TryGetScoreOf(InputKeyboard playerId, out int score)
+    public bool TryGetScoreOf(PlayerId playerId, out int score)
     {
         score = 0;
-        Player player = m_playersStates.Values.Where(w => w.Id == playerId).FirstOrDefault();
 
-        if (player == null)
+        Player actualPlayer = m_playersStates.Values.FirstOrDefault(f => f.Id == playerId);
+        
+        if (actualPlayer == null)
             return false;
         
-        if (!m_playersStates.ContainsKey(player.Behavior.gameObject))
-            return false;
-        
-        score = m_playersStates[player.Behavior.gameObject].Score;
+        score = actualPlayer.Score;
         return true;
     }
 
-    public bool TryUpdateScoreOf(GameObject player, int points)
+    public bool TryUpdateScoreOf(GameObject go, int points)
     {
-        if (!m_playersStates.ContainsKey(player))
-            return false;
+        if (go.TryGetComponent<MoveWithKeyboardBehavior>(out MoveWithKeyboardBehavior behavior))
+        {
+            if (m_playersStates.ContainsKey(behavior.id))
+            {
 
-        m_playersStates[player].Score += points;
+                m_playersStates[behavior.id].Score += points;
 
-        if (m_isSuddenDeathPhase)
-            GameOver();
+                if (m_isSuddenDeathPhase)
+                    GameOver();
 
-        return true;
+                return true;
+            }
+        }
+        
+        return false;
     }
 
-    public bool TryRegisterPlayer(MoveWithKeyboardBehavior behavior, InputKeyboard id)
+    public bool TryRegisterPlayer(MoveWithKeyboardBehavior behavior, PlayerId id, InputKeyboard controls)
     {
-        if (m_playersStates.ContainsKey(behavior.gameObject))
+        if (m_playersStates.ContainsKey(id))
             return false;
         
         var player = new Player();
@@ -237,8 +242,9 @@ public class GameManager : Singleton<GameManager>
         player.Score = 0;
         player.Behavior = behavior;
         player.Id = id;
+        player.Controls = controls;
 
-        m_playersStates.Add(behavior.gameObject, player);
+        m_playersStates.Add(id, player);
 
         return true;
     }
@@ -253,23 +259,23 @@ public class GameManager : Singleton<GameManager>
         return true;
     }
 
-    public bool TryUpdatePlayerColor(MoveWithKeyboardBehavior behavior, Player.Colors color)
+    public bool TryUpdatePlayerColor(PlayerId id, Player.Colors color)
     {
-        if (!m_playersStates.ContainsKey(behavior.gameObject))
+        if (!m_playersStates.ContainsKey(id))
             return false;
 
-        m_playersStates[behavior.gameObject].Color = color;
+        m_playersStates[id].Color = color;
         return true;
     }
     
-    public bool TryUpdateReadyState(MoveWithKeyboardBehavior player)
+    public bool TryUpdateReadyState(PlayerId id)
     {
         GameObject[] menus = GameObject.FindGameObjectsWithTag(Config.TAG_START_PROMPT);
 
-        if (!m_playersStates.ContainsKey(player.gameObject) || menus.Length == 0)
+        if (!m_playersStates.ContainsKey(id) || menus.Length == 0)
             return false;
 
-        m_playersStates[player.gameObject].IsReady = true;
+        m_playersStates[id].IsReady = true;
         if (m_playersStates.Values.All(a => a.IsReady))
         {
             Array.ForEach(menus, f => f.SetActive(true));
@@ -310,45 +316,42 @@ public class GameManager : Singleton<GameManager>
         }
     }
     
-    public bool TryTeleportPlayer(GameObject player)
+    public bool TryTeleportPlayer(GameObject pobj)
     {
-        if (!m_playersStates.ContainsKey(player))
-            return false;
-        
-        Player otherPlayer = m_playersStates.Values.Where(
-            w => w.Id != player.GetComponent<MoveWithKeyboardBehavior>().inputKeyboard).FirstOrDefault();
-        player.GetComponent<MoveWithKeyboardBehavior>().TeleportTo(otherPlayer.Behavior);
-        
-        return true;
+        if (pobj.TryGetComponent<MoveWithKeyboardBehavior>(out MoveWithKeyboardBehavior behavior))
+        {
+            if (m_playersStates.ContainsKey(behavior.id))
+            {
+                Player otherPlayer = m_playersStates
+                    .Values
+                    .FirstOrDefault(w => w.Behavior.id != behavior.id);
+
+                if (otherPlayer == null)
+                    return false;
+
+                // swap ids, colors and controls
+                behavior.TeleportTo(otherPlayer.Behavior);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool TrySetNewGemOwner(GameObject owner)
     {
-        if (!m_playersStates.ContainsKey(owner))
+        if (!owner.TryGetComponent<MoveWithKeyboardBehavior>(out MoveWithKeyboardBehavior behavior))
             return false;
         
-        if (!TryGetPlayerIdFromGameObject(owner, out InputKeyboard ownerId))
+        if (!m_playersStates.ContainsKey(behavior.id))
             return false;
         
         foreach (MoveWithKeyboardBehavior player in m_playersStates.Values.Select(s => s.Behavior))
         {
-            player.IsGemOwner = player.inputKeyboard == ownerId;
+            player.IsGemOwner = player.id == behavior.id;
         }
 
-        return true;
-    }
-    
-    public bool TryGetPlayerIdFromGameObject(GameObject obj, out InputKeyboard playerId)
-    {
-        playerId = InputKeyboard.arrows;
-        
-        MoveWithKeyboardBehavior player = obj.GetComponent<MoveWithKeyboardBehavior>();
-
-        if (player == null)
-            return false;
-
-        playerId = player.inputKeyboard;
-        
         return true;
     }
 }
