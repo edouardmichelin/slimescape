@@ -232,8 +232,12 @@ public class GameManager : Singleton<GameManager>
         {
             if (m_playersStates.ContainsKey(behavior.id))
             {
-
                 m_playersStates[behavior.id].Score += points;
+                if (points < 0)
+                    behavior.OnLosePoints();
+                else
+                    behavior.OnWinPoints();
+                
 
                 if (m_isSuddenDeathPhase)
                     GameOver();
