@@ -85,6 +85,11 @@ public class GameManager : Singleton<GameManager>
         GameOver();
     }
 
+    public void SlimeUnkidnapped()
+    {
+        
+    }
+
     public void PlayerKidnapped(PlayerId playerId)
     {
         if (!HasGameStarted)
@@ -171,10 +176,10 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
+            ResetReadyStates();
             if (m_gameOverObj != null)
             {
                 m_gameOverObj.SetActive(true);
-                m_gameOverObj = null;
             }
             
             StopGame();
@@ -198,6 +203,14 @@ public class GameManager : Singleton<GameManager>
         foreach (Player player in m_playersStates.Values)
         {
             player.Score = 0;
+        }
+    }
+
+    private void ResetReadyStates()
+    {
+        foreach (Player player in m_playersStates.Values)
+        {
+            player.IsReady = false;
         }
     }
 

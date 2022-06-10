@@ -120,6 +120,8 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public override void OnCelluloConnect()
     {
+        SetColor(color);
+        agent.ClearTracking();
         GoToStartPosition();
     }
 
