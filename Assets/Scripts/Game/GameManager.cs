@@ -145,6 +145,9 @@ public class GameManager : Singleton<GameManager>
         m_isGameStarted = true;
         
         SpawnManager.Instance.Enable();
+        
+        GlobalAnnouncer.Instance.Init();
+        GlobalAnnouncer.Instance.Say("Let's go!");
 
         ApplyGameDifficulty(m_difficulty);
     }
