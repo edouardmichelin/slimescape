@@ -81,16 +81,16 @@ public class MainMenu : MonoBehaviour
         float timer = GameManager.Instance.Timer;
         if (timer > 0)
         {
-            GameManager.Instance.TrySetTimer((int)(timer - 60f));
+            GameManager.Instance.TrySetTimer((int) (timer - 60f));
         }
     }
     
     public void TryIncrementTimer()
     {
         float timer = GameManager.Instance.Timer;
-        if (timer <=  Config.MAX_GAME_DURATION)
+        if (timer <  Config.MAX_GAME_DURATION)
         {
-            GameManager.Instance.TrySetTimer((int)(timer + 60f));
+            GameManager.Instance.TrySetTimer((int) (timer + 60f));
         }
     }
 
@@ -98,7 +98,8 @@ public class MainMenu : MonoBehaviour
     {
         if (int.TryParse(seconds, out int secondsInt))
         {
-            GameManager.Instance.TrySetTimer(secondsInt * 60);
+            float val = Mathf.Clamp(secondsInt * 60, 0, Config.MAX_GAME_DURATION);
+            GameManager.Instance.TrySetTimer((int) val);
         }
     }
 
