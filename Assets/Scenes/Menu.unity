@@ -11186,17 +11186,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lifting a player cellulo will pause the game. Putting all player cellulos
-    back down will resume.
+  m_text: 'The harder the difficulty, the faster the Slime moves and more frequent
+    teleport pads spawn get.
 
 
-    If the Slime is lifted, it will stop and reset the
-    game. This can be used if players want to stop the game before the timer ends.
+    Lifting a player cellulo will pause the game.
+    Putting all player cellulos back down will resume.
 
 
-    Enjoy
-    your time playing this interactive game and may the better scientist get his
-    promotion ;)'
+    If the Slime is lifted,
+    it will stop and reset the game. This can be used if players want to stop the
+    game before the timer ends.
+
+
+    Enjoy your time playing this interactive game
+    and may the better scientist get his promotion ;)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
