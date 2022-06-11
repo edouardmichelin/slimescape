@@ -56,7 +56,7 @@ public class SpawnManager : Singleton<SpawnManager>
         if (m_timer > m_gemSpawnerTimer.Interval)
         {
             AudioManager.Instance.PlaySoundEffect("gemSpawn");
-            Instantiate(gem, GetRandomCoordinates(), Quaternion.identity);
+            Instantiate(gem, GetRandomCoordinates(), transform.rotation * Quaternion.Euler (-90f, 0f, 0f));
             m_gemSpawnerTimer.Randomize();
             m_timer = 0f;
         }
@@ -67,7 +67,7 @@ public class SpawnManager : Singleton<SpawnManager>
         float posX = Random.Range(1f, (Config.UNITY_MAP_DIMENSION_Y - 1f));
         float posZ = Random.Range(-1f, -1f * (Config.UNITY_MAP_DIMENSION_X - 1f));
         
-        return new Vector3(posX * 2f, 0.25f, posZ * 2f);
+        return new Vector3(posX * 2f, 0f, posZ * 2f);
     }
 
     private void InitTimers()
