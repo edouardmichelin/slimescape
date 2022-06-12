@@ -14,6 +14,11 @@ public class SlimeAnnouncer : Singleton<SlimeAnnouncer>
     {
         HideMessage();
     }
+    
+    public void Destroy()
+    {
+        HideMessage();
+    }
 
     public void RegisterContainer(GameObject go)
     {
@@ -31,6 +36,9 @@ public class SlimeAnnouncer : Singleton<SlimeAnnouncer>
 
     public void Say(string message)
     {
+        if (GameManager.Instance.IsGamePaused)
+            return;
+        
         textComponent.text = message;
         DisplayMessage();
     }

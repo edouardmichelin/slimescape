@@ -83,8 +83,10 @@ public class GhostSheepBehavior : AgentBehaviour
 
     protected override void OnObstacleInFront(float distance, int layer)
     {
-        Debug.Log($"Obstacle! Distance from obstacle : {distance} on layer {layer}");
-        agent.LockMovement();
+        if (IsFleeing())
+        {
+            agent.LockMovement();
+        }
     }
     
     protected override void NoObstacleInFront()
