@@ -14,6 +14,11 @@ public class GlobalAnnouncer : Singleton<GlobalAnnouncer>
     {
         HideMessage();
     }
+    
+    public void Destroy()
+    {
+        HideMessage();
+    }
 
     public void RegisterContainer(GameObject go)
     {

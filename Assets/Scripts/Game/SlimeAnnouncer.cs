@@ -14,6 +14,11 @@ public class SlimeAnnouncer : Singleton<SlimeAnnouncer>
     {
         HideMessage();
     }
+    
+    public void Destroy()
+    {
+        HideMessage();
+    }
 
     public void RegisterContainer(GameObject go)
     {
