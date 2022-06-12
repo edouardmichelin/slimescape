@@ -153,6 +153,9 @@ public class GameManager : Singleton<GameManager>
         
         GlobalAnnouncer.Instance.Init();
         GlobalAnnouncer.Instance.Say("Let's go!");
+        SlimeAnnouncer.Instance.Init();
+       
+        
 
         ApplyGameDifficulty(m_difficulty);
     }
@@ -247,7 +250,10 @@ public class GameManager : Singleton<GameManager>
             {
                 m_playersStates[behavior.id].Score += points;
                 if (points < 0)
+                {
                     behavior.OnLosePoints();
+                    GlobalAnnouncer.Instance.Say("Ouch!");
+                }
                 else
                     behavior.OnWinPoints();
                 
@@ -361,6 +367,7 @@ public class GameManager : Singleton<GameManager>
 
                 // swap ids, colors and controls
                 behavior.TeleportTo(otherPlayer.Behavior);
+                GlobalAnnouncer.Instance.Say("What??");
 
                 return true;
             }
