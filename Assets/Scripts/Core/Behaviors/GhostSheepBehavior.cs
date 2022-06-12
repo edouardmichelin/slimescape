@@ -133,6 +133,7 @@ public class GhostSheepBehavior : AgentBehaviour
         gameObject.tag = FLEEING_TAG;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 0);
         AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToSheep);
+        SlimeAnnouncer.Instance.Say("blop");
 	}
 
 	private void SwitchToAngry()
@@ -140,6 +141,7 @@ public class GhostSheepBehavior : AgentBehaviour
         gameObject.tag = ATTACKING_TAG;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
         AudioManager.Instance.PlaySoundEffect(soundOnSwitchingToWolf);
+        SlimeAnnouncer.Instance.Say("AAGHR");
 	}
 
     private void SwitchRole()

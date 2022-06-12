@@ -62,6 +62,7 @@ public class CustomTeleporter : MonoBehaviour
 	{
 		//if you chose to teleport instantly
 		if(instantTeleport)
+			
 		{
 			//if you chose instant + random teleport, teleport to a random pad from the array
 			if(randomTeleport)
