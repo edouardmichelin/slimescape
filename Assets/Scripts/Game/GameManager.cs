@@ -162,11 +162,11 @@ public class GameManager : Singleton<GameManager>
 
     public void StopGame()
     {
+        IsGamePaused = true;
+        HasGameStarted = false;
         SpawnManager.Instance.Disable();
         GlobalAnnouncer.Instance.Destroy();
         SlimeAnnouncer.Instance.Destroy();
-        IsGamePaused = true;
-        HasGameStarted = false;
         m_isSuddenDeathPhase = false;
         Timer = Config.GAME_DURATION;
     }

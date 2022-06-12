@@ -36,6 +36,9 @@ public class SlimeAnnouncer : Singleton<SlimeAnnouncer>
 
     public void Say(string message)
     {
+        if (GameManager.Instance.IsGamePaused)
+            return;
+        
         textComponent.text = message;
         DisplayMessage();
     }
