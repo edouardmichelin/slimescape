@@ -1,6 +1,6 @@
-# *Space Ghost Sheep*
+# CS-213 - Projet - Slimescape
 
-Super game
+### Edouard Michelin & Julien Jordan & Lilou Dehondt
 
 
 
